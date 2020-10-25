@@ -57,7 +57,7 @@ else:
     print('Channel groups after loading the probe file:', recording_prb.get_channel_groups())
     
     #For testing only: Reduce recording.
-    recording_prb = se.SubRecordingExtractor(recording_prb, start_frame=100*fs, end_frame=420*fs)
+    #recording_prb = se.SubRecordingExtractor(recording_prb, start_frame=100*fs, end_frame=420*fs)
     
     
     #Bandpass filter 
