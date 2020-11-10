@@ -9,7 +9,8 @@ https://spikeinterface.readthedocs.io/en/latest/sortersinfo.html
 
 
 -----------------------
-Spike sorting pipeline.
+## Spike sorting pipeline.
+
 1.	Select trial/post-trial. This could also be a merged version of them.
 2.	Fix file names by removing extra ‘_0’.  Run ‘fix_channel_name.py’.
 3.	Group channels by tetrode and save them in a new folder for that tetrode.
