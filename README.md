@@ -14,4 +14,6 @@ Spike sorting pipeline.
 2.	Fix file names by removing extra ‘_0’.  Run ‘fix_channel_name.py’.
 3.	Group channels by tetrode and save them in a new folder for that tetrode.
 4.	Activate the environment where SpikeInterface was installed and run the automatic spike sorter by going to terminal and typing:
+```
 python sort_tetrode_manual.py ‘complete_path_of_tetrode_folder’
+```
