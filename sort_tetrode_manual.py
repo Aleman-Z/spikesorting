@@ -20,6 +20,7 @@ import matplotlib.pylab as plt
 import numpy as np
 import time 
 import glob
+import csv
 
 #Folder with tetrode data
 #recording_folder='/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH';
@@ -124,25 +125,40 @@ plt.close()
 os.chdir('phy_manual')
 spike_times=np.load('spike_times.npy');
 spike_clusters=np.load('spike_clusters.npy');
+#Find units curated as 'noise'
+noise_id=[];    
+with open("cluster_group.tsv") as fd:
+    rd = csv.reader(fd, delimiter="\t", quotechar='"')
+    for row in rd:
+        if row[1]=='noise':
+            noise_id.append(int(row[0]))
+#Create a list with the unit IDs and remove those labeled as 'noise'
+some_list=np.unique(spike_clusters)
+some_list=some_list.tolist()
+for x in noise_id:    
+    print(x)
+    some_list.remove(x)
 
 #Bin data in bins of 25ms
 #45 minutes
 bins=np.arange(start=0, stop=45*60*fs+1, step=.025*fs)
+NData=np.zeros([np.unique(spike_clusters).shape[0]-len(noise_id),bins.shape[0]-1])
 
-NData=np.zeros([spike_clusters.max()+1,bins.shape[0]-1])
-
-for x in range(spike_clusters.max()+1):
-    print(x)
-    ind = np.where(spike_clusters == x)
-    ind=ind[0];
-    fi=spike_times[ind];
+cont=0;    
+for x in some_list:    
+    #print(x)
+    ind=(spike_clusters==x)
+    fi=spike_times[ind]
     inds = np.histogram(fi, bins=bins)
     inds1=inds[0]
-    NData[x,:]=inds1;
+    NData[cont,:]=inds1;
+    cont=cont+1;
+
 
 #Save activation matrix
 os.chdir("..")
 a=os.path.split(os.getcwd())[1]
 np.save('actmat_manual_'+a.split('_')[1], NData)
+np.save('unit_id_manual_'+a.split('_')[1],some_list)
 
 sys.exit("Stop the code here")
