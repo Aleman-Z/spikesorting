@@ -13,7 +13,7 @@ To be used on Linux :penguin:
 ## Spike sorting pipeline.
 
 1.	Select trial/post-trial. This could also be a merged version of them.
-2.	Fix file names by removing extra ‘_0’.  Run `‘fix_channel_name.py’`.
+2.	Fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 3.	Group channels by tetrode and save them in a new folder for that tetrode.
 4.	Activate the environment where SpikeInterface was installed and run the automatic spike sorter by going to terminal and typing:
 ```
