@@ -45,55 +45,38 @@ ss.WaveClusSorter.waveclus_path
 #Check if the recording has been preprocessed before and load it.
 # Else proceed with preprocessing.
 arr = os.listdir()
-if 'recording.pkl' in arr:
- print('Loading previous files')
- recording_cache = se.load_extractor_from_pickle('recording.pkl')
- channel_ids = recording_cache.get_channel_ids() 
- fs = recording_cache.get_sampling_frequency()
- num_chan = recording_cache.get_num_channels()
-else:
         
-    #Load .continuous files 
-    recording = se.OpenEphysRecordingExtractor(recording_folder) 
-    channel_ids = recording.get_channel_ids() 
-    fs = recording.get_sampling_frequency()
-    num_chan = recording.get_num_channels()
-    
-    
-    print('Channel ids:', channel_ids)
-    print('Sampling frequency:', fs)
-    print('Number of channels:', num_chan)
-    
-    
-    #!cat tetrode9.prb #Asks for prb file
-    # os.system('cat /home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode9.prb') 
-    recording_prb = recording.load_probe_file('/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode.prb')
-    
-    print('Channels after loading the probe file:', recording_prb.get_channel_ids())
-    print('Channel groups after loading the probe file:', recording_prb.get_channel_groups())
-    
-    #For testing only: Reduce recording.
-    #recording_prb = se.SubRecordingExtractor(recording_prb, start_frame=100*fs, end_frame=420*fs)
-    
-    
-    #Bandpass filter 
-    recording_cmr = st.preprocessing.bandpass_filter(recording_prb, freq_min=300, freq_max=6000)
-    recording_cache = se.CacheRecordingExtractor(recording_cmr) 
-    
-    print(recording_cache.get_channel_ids())
-    print(recording_cache.get_channel_groups())
-    print(recording_cache.get_num_frames() / recording_cache.get_sampling_frequency())
-    
-    #Save preprocessed data to reload at a later point.
-    recording_cache.filename
-    recording_cache.get_tmp_folder()
-    recording_cache.move_to('preprocessed_data.dat') 
-    print(recording_cache.filename)
-    
-    recording_cache.dump_to_dict()
-    recording_cache.dump_to_pickle('recording.pkl')
-    #recording_loaded = se.load_extractor_from_pickle('recording.pkl')
+#Load .continuous files 
+recording = se.OpenEphysRecordingExtractor(recording_folder) 
+channel_ids = recording.get_channel_ids() 
+fs = recording.get_sampling_frequency()
+num_chan = recording.get_num_channels()
 
+
+print('Channel ids:', channel_ids)
+print('Sampling frequency:', fs)
+print('Number of channels:', num_chan)
+
+
+#!cat tetrode9.prb #Asks for prb file
+# os.system('cat /home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode9.prb') 
+recording_prb = recording.load_probe_file('/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode.prb')
+
+print('Channels after loading the probe file:', recording_prb.get_channel_ids())
+print('Channel groups after loading the probe file:', recording_prb.get_channel_groups())
+
+#For testing only: Reduce recording.
+#recording_prb = se.SubRecordingExtractor(recording_prb, start_frame=100*fs, end_frame=420*fs)
+
+
+#Bandpass filter 
+recording_cmr = st.preprocessing.bandpass_filter(recording_prb, freq_min=300, freq_max=6000)
+recording_cache = se.CacheRecordingExtractor(recording_cmr) 
+
+print(recording_cache.get_channel_ids())
+print(recording_cache.get_channel_groups())
+print(recording_cache.get_num_frames() / recording_cache.get_sampling_frequency())
+    
 
 #View installed sorters
 #ss.installed_sorters()
