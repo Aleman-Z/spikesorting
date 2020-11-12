@@ -18,7 +18,7 @@ export PYTHONPATH=$PYTHONPATH:/path/you/want/to/add
 2.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 3.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
-python rearrange_folders ‘complete_path_of_folder_with_ephys_data’
+python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
 ```
 4.	Activate the environment where SpikeInterface was installed and run the automatic spike sorter by going to terminal and typing:
 ```
