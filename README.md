@@ -9,7 +9,7 @@ https://spikeinterface.readthedocs.io/en/latest/sortersinfo.html
 
 To be used on Linux :penguin: Add this folder to your path by typing in terminal:
 ```
-export PYTHONPATH=$PYTHONPATH:/path/you/want/to/add
+export PYTHONPATH=$PYTHONPATH:/path/to/this/folder
 ```
 -----------------------
 ## Spike sorting pipeline.
