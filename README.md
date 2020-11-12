@@ -7,8 +7,10 @@ For sort_tetrode.py install sorters as mentioned on this page:
 
 https://spikeinterface.readthedocs.io/en/latest/sortersinfo.html
 
-To be used on Linux :penguin:
-
+To be used on Linux :penguin: Add this folder to your path by typing in terminal:
+```
+export PYTHONPATH=$PYTHONPATH:/path/you/want/to/add
+```
 -----------------------
 ## Spike sorting pipeline.
 
