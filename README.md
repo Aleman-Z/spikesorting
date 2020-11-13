@@ -16,6 +16,9 @@ export PYTHONPATH=$PYTHONPATH:/path/to/this/folder
 
 1.	Select trial/post-trial. This could also be a merged version of them. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels.
 2.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
+```
+python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
+```
 3.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
 python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
