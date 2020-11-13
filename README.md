@@ -11,7 +11,7 @@ To be used on Linux :penguin: Add this folder to your path by typing in terminal
 ```
 export PYTHONPATH=$PYTHONPATH:/path/to/this/folder
 ```
-or pasting it in `gedit ~/.bashrc`
+or pasting it in `gedit ~/.bashrc` to add it permanently.
 
 -----------------------
 ## Spike sorting pipeline.
