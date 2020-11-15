@@ -60,7 +60,7 @@ print('Number of channels:', num_chan)
 
 #!cat tetrode9.prb #Asks for prb file
 # os.system('cat /home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode9.prb') 
-recording_prb = recording.load_probe_file('/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode.prb')
+recording_prb = recording.load_probe_file('tetrode.prb')
 
 print('Channels after loading the probe file:', recording_prb.get_channel_ids())
 print('Channel groups after loading the probe file:', recording_prb.get_channel_groups())
