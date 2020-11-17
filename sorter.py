@@ -179,7 +179,12 @@ def auto(recording_folder):
     
     else:
         t = time.time()
-        sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
+        #When herdingspikes fails, assign the results from Klusta.
+        try:
+            sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
+        except:
+            print('Herdingspikes has failed')
+            sorting_herdingspikes_all =sorting_KL_all;
         print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
         time.time() - t
         #Save herdingspikes
@@ -361,6 +366,13 @@ def manual(recording_folder):
     #recording_folder='/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH';
     
     os.chdir(recording_folder)
+    
+    #If sorter has already been run skip it.
+    subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
+    if ('phy_manual' in subfolders):
+        print('Tetrode was previously manually sorted. Skipping')
+        return
+
     
     #Check if the recording has been preprocessed before and load it.
     # Else proceed with preprocessing.

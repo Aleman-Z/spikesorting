@@ -164,7 +164,12 @@ if 'sorting_herdingspikes_all.nwb' in arr:
 
 else:
     t = time.time()
-    sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
+    #When herdingspikes fails, assign the results from Klusta.
+    try:
+        sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
+    except:
+            print('Herdingspikes has failed')
+            sorting_herdingspikes_all =sorting_KL_all;        
     print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
     time.time() - t
     #Save herdingspikes
