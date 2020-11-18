@@ -38,6 +38,6 @@ python -m run_tetrodes  ‘complete_path_of_brain_region_folder_with_tetrodes’
 python -m run_tetrodes_manual  ‘complete_path_of_brain_region_folder_with_tetrodes’
 ```
 
-6.	If you are running `run_tetrodes_manual.py` the phy interface will pop up. Asking you to look at the detections from Klusta and discard the false positives. To discard the false positives/noise select the unit from the Cluster view panel and press `Alt+N`. Save once you are done and close the interface.
+6.	If you are running `run_tetrodes_manual.py` the phy interface will pop up. Asking you to look at the detections from Klusta and discard the false positives. To discard the false positives/noise select the unit from the Cluster view panel and press `Alt+N`. :warning: Very important: Once you are done make sure to first save and then close the interface. If you first close the interface a message will ask you to save but even if you do it, it will not save your curations! :warning:
 7.	For either `run_tetrodes.py` or `run_tetrodes_manual.py` a phy folder will be created, were one can find the spike_times.npy and spike_clusters.npy files. By binarizing the spike times of each spike (bin of 25ms) one can generate the activation matrix needed for the cell assembly analysis. This matrix is saved as ‘actmat_auto_tetrode#’.
 8.	The `phy2assembly.py` script will concatenate all activation matrices across tetrodes and then run the cell assembly detection.
