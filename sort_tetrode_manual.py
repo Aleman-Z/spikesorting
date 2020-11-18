@@ -104,6 +104,15 @@ plt.savefig('manual_unit_templates.pdf', bbox_inches='tight');
 plt.savefig('manual_unit_templates.png', bbox_inches='tight');
 plt.close()
 
+#Compute agreement matrix wrt consensus-based sorting.
+sorting_phy_consensus = se.PhySortingExtractor('phy_AGR/', exclude_cluster_groups=['noise']);
+cmp=sc.compare_sorter_to_ground_truth(sorting_phy_curated,sorting_phy_consensus)
+sw.plot_agreement_matrix(cmp)
+plt.savefig('agreement_matrix_klusta.pdf', bbox_inches='tight');
+plt.savefig('agreement_matrix_klusta.png', bbox_inches='tight');
+plt.close()
+
+
 #Access unit ID and firing rate.
 os.chdir('phy_manual')
 spike_times=np.load('spike_times.npy');
@@ -144,4 +153,4 @@ a=os.path.split(os.getcwd())[1]
 np.save('actmat_manual_'+a.split('_')[1], NData)
 np.save('unit_id_manual_'+a.split('_')[1],some_list)
 
-sys.exit("Stop the code here")
+print("Stop the code here")
