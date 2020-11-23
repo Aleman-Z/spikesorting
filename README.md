@@ -46,3 +46,7 @@ To view previously computed consensus-based units in phy simply type this line i
 ```
 os.system('phy template-gui phy_AGR/params.py')
 ```
+To view a new consensus after having done a manual curation use:
+```
+python -m consensus_post_curation  ‘complete_path_of_tetrode_folder’
+```
