@@ -50,3 +50,4 @@ To view a new consensus after having done a manual curation use:
 ```
 python -m consensus_post_curation  ‘complete_path_of_tetrode_folder’
 ```
+To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. 
