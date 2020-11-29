@@ -46,8 +46,8 @@ for j in range(2):
             channels = [append_str + sub + post_str for sub in channels] 
             
             for x in channels:
-                copy2(x,os.getcwd()+'/'+folders[j]+'/'+'Tetrode_'+str(av[i]))
-                #os.rename(os.getcwd()+'/'+x,os.getcwd()+'/'+'Tetrode_'+str(av[i])+'/'+x )
+                #copy2(x,os.getcwd()+'/'+folders[j]+'/'+'Tetrode_'+str(av[i]))
+                os.rename(os.getcwd()+'/'+x,os.getcwd()+'/'+folders[j]+'/'+'Tetrode_'+str(av[i])+'/'+x )
             copy2('all_channels.events', os.getcwd()+'/'+folders[j]+'/'+'Tetrode_'+str(av[i]))
             copy2('Continuous_Data.openephys', os.getcwd()+'/'+folders[j]+'/'+'Tetrode_'+str(av[i]))
             copy2('settings.xml', os.getcwd()+'/'+folders[j]+'/'+'Tetrode_'+str(av[i]))
