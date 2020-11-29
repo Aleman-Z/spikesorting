@@ -282,23 +282,28 @@ def auto(recording_folder):
     plt.close()
     
     
-    #Use amount of sorters which give a value closest to 10 units.
-    agreed_units=[];
-    for x in [1,2,3,4,5]:
-        agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=x)
-        agreed_units.append(len(agreement_sorting.get_unit_ids()));
-    print(agreed_units)
-    print(agreed_units.index(min(agreed_units, key=lambda x:abs(x-10)))+1)
+    # #Use amount of sorters which give a value closest to 10 units.
+    # agreed_units=[];
+    # for x in [1,2,3,4,5]:
+    #     agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=x)
+    #     agreed_units.append(len(agreement_sorting.get_unit_ids()));
+    # print(agreed_units)
+    # print(agreed_units.index(min(agreed_units, key=lambda x:abs(x-10)))+1)
     
-    agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=
-            agreed_units.index(min(agreed_units, key=lambda x:abs(x-10)))+1);
+    # agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=
+    #         agreed_units.index(min(agreed_units, key=lambda x:abs(x-10)))+1);
+    # Use units with at least 2 sorters agreeing.
+    agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=2)
     
     print(agreement_sorting.get_unit_ids())
     if not(agreement_sorting.get_unit_ids()): #If there is no agreement.
-        print('No consensus. Finding sorter with closest to expected amount of units')
-        print(Sorters2CompareLabel[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))])
-        agreement_sorting=Sorters2Compare[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))]
-       
+        # print('No consensus. Finding sorter with closest to expected amount of units')
+        # print(Sorters2CompareLabel[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))])
+        # agreement_sorting=Sorters2Compare[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))]
+        print('No consensus. Using detections from Waveclus')
+        agreement_sorting=sorting_waveclus_all;
+
+        
     st.postprocessing.export_to_phy(recording_cache, 
                                     agreement_sorting, output_folder='phy_AGR',
                                     grouping_property='group', verbose=True, recompute_info=True)

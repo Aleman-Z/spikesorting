@@ -92,7 +92,7 @@ plt.close()
 agreement_sorting=mcmp.get_agreement_sorting(minimum_agreement_count=2);
 
 st.postprocessing.export_to_phy(recording_cache, 
-                                agreement_sorting, output_folder='phy_AGT_post',
+                                agreement_sorting, output_folder='phy_AGR_post',
                                 grouping_property='group', verbose=True, recompute_info=True)
     
 print('Consensus ended. Results saved')
