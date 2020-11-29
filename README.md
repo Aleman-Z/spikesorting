@@ -16,7 +16,7 @@ or pasting it in `gedit ~/.bashrc` to add it permanently.
 -----------------------
 ## Spike sorting pipeline.
 
-1.	Select trial/post-trial. This could also be a merged version of them. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels.
+1.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels.
 2.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 ```
 python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
@@ -50,4 +50,3 @@ To view a new consensus after having done a manual curation use:
 ```
 python -m consensus_post_curation  ‘complete_path_of_tetrode_folder’
 ```
-To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. 
