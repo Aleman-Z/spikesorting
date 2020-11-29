@@ -20,6 +20,7 @@ import matplotlib.pylab as plt
 import numpy as np
 import time 
 import glob
+from shutil import rmtree
 
 #Folder with tetrode data
 #recording_folder='/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH';
@@ -164,25 +165,30 @@ if 'sorting_herdingspikes_all.nwb' in arr:
 
 else:
     t = time.time()
-    #When herdingspikes fails, assign the results from Klusta.
     try:
         sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
+
+        print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
+        time.time() - t
+        #Save herdingspikes
+        se.NwbRecordingExtractor.write_recording(recording_cache, 'sorting_herdingspikes_all.nwb')
+        try: 
+            se.NwbSortingExtractor.write_sorting(sorting_herdingspikes_all, 'sorting_herdingspikes_all.nwb')
+        except TypeError:
+            print("No units detected.  Can't save HerdingSpikes")
+            os.remove("sorting_herdingspikes_all.nwb")
+        if not(not(sorting_herdingspikes_all.get_unit_ids())):
+            Sorters2Compare.append(sorting_herdingspikes_all);
+            Sorters2CompareLabel.append('HS');
+        SortersCount.append(len(sorting_herdingspikes_all.get_unit_ids()))    
+        
     except:
             print('Herdingspikes has failed')
-            sorting_herdingspikes_all =sorting_KL_all;        
-    print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
-    time.time() - t
-    #Save herdingspikes
-    se.NwbRecordingExtractor.write_recording(recording_cache, 'sorting_herdingspikes_all.nwb')
-    try: 
-        se.NwbSortingExtractor.write_sorting(sorting_herdingspikes_all, 'sorting_herdingspikes_all.nwb')
-    except TypeError:
-        print("No units detected.  Can't save HerdingSpikes")
-        os.remove("sorting_herdingspikes_all.nwb")
-    if not(not(sorting_herdingspikes_all.get_unit_ids())):
-        Sorters2Compare.append(sorting_herdingspikes_all);
-        Sorters2CompareLabel.append('HS');
-SortersCount.append(len(sorting_herdingspikes_all.get_unit_ids()))    
+try:
+    rmtree("results_all_herdingspikes")
+except FileNotFoundError:
+    print('Removed leftover herdingspikes files')
+    
 
 #Mountainsort4
 if 'sorting_mountainsort4_all.nwb' in arr:
@@ -260,6 +266,10 @@ else:
         Sorters2CompareLabel.append('TRI');
 SortersCount.append(len(sorting_tridesclous_all.get_unit_ids()))    
 
+try:
+    rmtree("results_all_tridesclous")
+except FileNotFoundError:
+    print('Removed leftover tridesclous files')
 
 #Consensus based curation.
 print(Sorters2CompareLabel)
