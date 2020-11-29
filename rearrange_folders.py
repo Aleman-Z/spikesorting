@@ -20,7 +20,9 @@ for j in range(2):
     
     #Read excel sheet
     av=[];
-    wb_obj = openpyxl.load_workbook(folders[j]+'.xlsx')
+    file = [f for f in os.listdir('.') if folders[j]+'.xlsx' in f]
+    print(file)
+    wb_obj = openpyxl.load_workbook(file[0])
     sheet = wb_obj.active
     for row in sheet.iter_rows(max_row=sheet.max_row):
         for cell in row:
