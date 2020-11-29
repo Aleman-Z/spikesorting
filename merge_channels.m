@@ -10,14 +10,24 @@ for i=1:length(folders)
 end
 
 
-%% Identify channels to merge
-channels=[52,53,59,58,49,51,46,47,48,12,31,13,30,10,11,32,4,3,2,9,6,5,22,25,23,24,20,21,27,26,17,28,18,19
-    ];
+%% Select channels to merge
+% channels=[52,53,59,58,49,51,46,47,48,12,31,13,30,10,11,32,4,3,2,9,6,5,22,25,23,24,20,21,27,26,17,28,18,19
+%     ];
+%%
+channels=[ ...
+14,29,15,16 ...
+63,45,62 ...
+42,64 ...
+36,35,41,34 ...
+40,39,38,37 ...
+54,55 ...
+];
 %%
 clc
 %i=1;
 f=waitbar(0,'Please wait...');
 counter=0;
+tic
 for j=1:length(channels)
 for i=1:length(folders)-1
 % folders{i+1}   
@@ -97,3 +107,4 @@ progress_bar(counter,(length(folders)-1)*length(channels),f)
 end
  cd ..
 end
+toc
