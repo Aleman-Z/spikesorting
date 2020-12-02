@@ -123,7 +123,7 @@ if 'sorting_IC_all.nwb' in arr:
 
 else:
     t = time.time()
-    sorting_IC_all = ss.run_ironclust(recording_cache, output_folder='results_all_ic',delete_output_folder=True)
+    sorting_IC_all = ss.run_ironclust(recording_cache, output_folder='results_all_ic',delete_output_folder=True, filter=False)
     print('Found', len(sorting_IC_all.get_unit_ids()), 'units')
     time.time() - t
     #Save IC
@@ -134,26 +134,30 @@ else:
         Sorters2CompareLabel.append('IC');
 SortersCount.append(len(sorting_IC_all.get_unit_ids()))
     
-#Waveclust
-if 'sorting_waveclus_all.nwb' in arr:
-    print('Loading waveclus')
-    sorting_waveclus_all=se.NwbSortingExtractor('sorting_waveclus_all.nwb');
-    if not(not(sorting_waveclus_all.get_unit_ids())):
-        Sorters2Compare.append(sorting_waveclus_all);
-        Sorters2CompareLabel.append('Waveclus');
+# #Waveclust
+# if 'sorting_waveclus_all.nwb' in arr:
+#     print('Loading waveclus')
+#     sorting_waveclus_all=se.NwbSortingExtractor('sorting_waveclus_all.nwb');
+#     if not(not(sorting_waveclus_all.get_unit_ids())):
+#         Sorters2Compare.append(sorting_waveclus_all);
+#         Sorters2CompareLabel.append('Waveclus');
+#     SortersCount.append(len(sorting_waveclus_all.get_unit_ids()))    
     
-else:
-    t = time.time()
-    sorting_waveclus_all = ss.run_waveclus(recording_cache, output_folder='results_all_waveclus',delete_output_folder=True)
-    print('Found', len(sorting_waveclus_all.get_unit_ids()), 'units')
-    time.time() - t
-    #Save waveclus
-    se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_waveclus_all.nwb')
-    se.NwbSortingExtractor.write_sorting(sorting_waveclus_all, 'sorting_waveclus_all.nwb')
-    if not(not(sorting_waveclus_all.get_unit_ids())):
-        Sorters2Compare.append(sorting_waveclus_all);
-        Sorters2CompareLabel.append('Waveclus');
-SortersCount.append(len(sorting_waveclus_all.get_unit_ids()))
+# else:
+#     t = time.time()
+#     try:
+#         sorting_waveclus_all = ss.run_waveclus(recording_cache, output_folder='results_all_waveclus',delete_output_folder=True)
+#         print('Found', len(sorting_waveclus_all.get_unit_ids()), 'units')
+#         time.time() - t
+#         #Save waveclus
+#         se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_waveclus_all.nwb')
+#         se.NwbSortingExtractor.write_sorting(sorting_waveclus_all, 'sorting_waveclus_all.nwb')
+#         if not(not(sorting_waveclus_all.get_unit_ids())):
+#             Sorters2Compare.append(sorting_waveclus_all);
+#             Sorters2CompareLabel.append('Waveclus');
+#         SortersCount.append(len(sorting_waveclus_all.get_unit_ids()))
+#     except:
+#         print('Waveclus cannot be run')
 
 #Herdingspikes
 if 'sorting_herdingspikes_all.nwb' in arr:
@@ -184,12 +188,17 @@ else:
         
     except:
             print('Herdingspikes has failed')
+            
 try:
     rmtree("results_all_herdingspikes")
-except FileNotFoundError:
+except:
     print('Removed leftover herdingspikes files')
     
-
+try:
+    rmtree("results_all_herdingspikes")
+except:
+    print('Removed leftover herdingspikes files')
+    
 #Mountainsort4
 if 'sorting_mountainsort4_all.nwb' in arr:
     print('Loading mountainsort4')
@@ -200,7 +209,7 @@ if 'sorting_mountainsort4_all.nwb' in arr:
 
 else:
     t = time.time()
-    sorting_mountainsort4_all = ss.run_mountainsort4(recording_cache, output_folder='results_all_mountainsort4',delete_output_folder=True)
+    sorting_mountainsort4_all = ss.run_mountainsort4(recording_cache, output_folder='results_all_mountainsort4',delete_output_folder=True, filter=False)
     print('Found', len(sorting_mountainsort4_all.get_unit_ids()), 'units')
     time.time() - t
     #Save mountainsort4
@@ -222,7 +231,7 @@ if 'sorting_spykingcircus_all.nwb' in arr:
 
 else:
     t = time.time()
-    sorting_spykingcircus_all = ss.run_spykingcircus(recording_cache, output_folder='results_all_spykingcircus',delete_output_folder=True)
+    sorting_spykingcircus_all = ss.run_spykingcircus(recording_cache, output_folder='results_all_spykingcircus',delete_output_folder=True, filter=False)
     print('Found', len(sorting_spykingcircus_all.get_unit_ids()), 'units')
     time.time() - t
     #Save sorting_spykingcircus
@@ -268,7 +277,7 @@ SortersCount.append(len(sorting_tridesclous_all.get_unit_ids()))
 
 try:
     rmtree("results_all_tridesclous")
-except FileNotFoundError:
+except:
     print('Removed leftover tridesclous files')
 
 #Consensus based curation.
@@ -306,8 +315,8 @@ if not(agreement_sorting.get_unit_ids()): #If there is no agreement.
     # print('No consensus. Finding sorter with closest to expected amount of units')
     # print(Sorters2CompareLabel[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))])
     # agreement_sorting=Sorters2Compare[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))]
-    print('No consensus. Using detections from Waveclus')
-    agreement_sorting=sorting_waveclus_all;
+    print('No consensus. Using detections from Ironclus')
+    agreement_sorting=sorting_IC_all;
     
 st.postprocessing.export_to_phy(recording_cache, 
                                 agreement_sorting, output_folder='phy_AGR',
