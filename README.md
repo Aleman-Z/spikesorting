@@ -42,6 +42,9 @@ python -m run_tetrodes_manual  ‘complete_path_of_brain_region_folder_with_tetr
 7.	For either `run_tetrodes.py` or `run_tetrodes_manual.py` a phy folder will be created, were one can find the spike_times.npy and spike_clusters.npy files. By binarizing the spike times of each spike (bin of 25ms) one can generate the activation matrix needed for the cell assembly analysis. This matrix is saved as ‘actmat_auto_tetrode#’.
 8.	The `phy2assembly.py` script will concatenate all activation matrices across tetrodes and then run the cell assembly detection.
 
+To load pre-computed sorter results and export to phy with the raw signal you can use this script and adapt accordingly:
+`view_sorter_detections.py`
+
 To view previously computed consensus-based units in phy simply type this line in the template folder:
 ```
 os.system('phy template-gui phy_AGR/params.py')
