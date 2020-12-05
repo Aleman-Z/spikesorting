@@ -27,7 +27,7 @@ def auto(recording_folder):
     #If sorter has already been run skip it.
     subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
     if ('phy_AGR' in subfolders):
-        print('Tetrode was previously sorted. Skipping')
+        print('Tetrode '+recording_folder.split('_')[-1]+' was previously sorted. Skipping')
         return
 
     """
@@ -382,8 +382,9 @@ def manual(recording_folder):
     
     #If sorter has already been run skip it.
     subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
-    if ('phy_KL' in subfolders) & ('phy_IC' in subfolders) & ('phy_Waveclus' in subfolders) & ('phy_SC' in subfolders) & ('phy_MS4' in subfolders) & ('phy_HS' in subfolders) & ('phy_TRI' in subfolders):
-        print('Tetrode was previously manually sorted. Skipping')
+    #if ('phy_KL' in subfolders) & ('phy_IC' in subfolders) & ('phy_Waveclus' in subfolders) & ('phy_SC' in subfolders) & ('phy_MS4' in subfolders) & ('phy_HS' in subfolders) & ('phy_TRI' in subfolders):
+    if ('phy_KL' in subfolders) & ('phy_IC' in subfolders) & ('phy_SC' in subfolders) & ('phy_MS4' in subfolders) & ('phy_HS' in subfolders) & ('phy_TRI' in subfolders):
+        print('Tetrode '+recording_folder.split('_')[-1]+' was previously manually sorted. Skipping')
         return
 
     
@@ -427,11 +428,12 @@ def manual(recording_folder):
     #ss.installed_sorters()
     #mylist = [f for f in glob.glob("*.txt")]
     
-    #%% Run all channels. There are only a single tetrode channels anyway.
+    #%% Run all channels. There are only single tetrode channels anyway.
     
     #Create sub recording to avoid saving whole recording.Requirement from NWB to allow saving sorters data. 
     recording_sub = se.SubRecordingExtractor(recording_cache, start_frame=200*fs, end_frame=320*fs)
-    Sorters2CompareLabel=['KL','IC','Waveclus','HS','MS4','SC','TRI'];
+    # Sorters2CompareLabel=['KL','IC','Waveclus','HS','MS4','SC','TRI'];
+    Sorters2CompareLabel=['KL','IC','HS','MS4','SC','TRI'];
     subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
     
     for num in range(len(Sorters2CompareLabel)):
@@ -467,7 +469,7 @@ def manual(recording_folder):
                 
                 else:
                     t = time.time()
-                    sorting_IC_all = ss.run_ironclust(recording_cache, output_folder='results_all_ic',delete_output_folder=True)
+                    sorting_IC_all = ss.run_ironclust(recording_cache, output_folder='results_all_ic',delete_output_folder=True, filter=False)
                     print('Found', len(sorting_IC_all.get_unit_ids()), 'units')
                     print(time.time() - t)
                     #Save IC
@@ -475,54 +477,46 @@ def manual(recording_folder):
                     se.NwbSortingExtractor.write_sorting(sorting_IC_all, 'sorting_IC_all.nwb')
                 sorter=sorting_IC_all;
             
-            if 'Waveclus' in i:
-                #Waveclust
-                if 'sorting_waveclus_all.nwb' in arr:
-                    print('Loading waveclus')
-                    sorting_waveclus_all=se.NwbSortingExtractor('sorting_waveclus_all.nwb');
+            # if 'Waveclus' in i:
+            #     #Waveclust
+            #     if 'sorting_waveclus_all.nwb' in arr:
+            #         print('Loading waveclus')
+            #         sorting_waveclus_all=se.NwbSortingExtractor('sorting_waveclus_all.nwb');
                     
-                else:
-                    t = time.time()
-                    sorting_waveclus_all = ss.run_waveclus(recording_cache, output_folder='results_all_waveclus',delete_output_folder=True)
-                    print('Found', len(sorting_waveclus_all.get_unit_ids()), 'units')
-                    print(time.time() - t)
-                    #Save waveclus
-                    se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_waveclus_all.nwb')
-                    se.NwbSortingExtractor.write_sorting(sorting_waveclus_all, 'sorting_waveclus_all.nwb')
-                sorter=sorting_waveclus_all;
+            #     else:
+            #         t = time.time()
+            #         sorting_waveclus_all = ss.run_waveclus(recording_cache, output_folder='results_all_waveclus',delete_output_folder=True)
+            #         print('Found', len(sorting_waveclus_all.get_unit_ids()), 'units')
+            #         print(time.time() - t)
+            #         #Save waveclus
+            #         se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_waveclus_all.nwb')
+            #         se.NwbSortingExtractor.write_sorting(sorting_waveclus_all, 'sorting_waveclus_all.nwb')
+            #     sorter=sorting_waveclus_all;
             
             if 'HS' in i:
                 #Herdingspikes
                 if 'sorting_herdingspikes_all.nwb' in arr:
                     print('Loading herdingspikes')
                     sorting_herdingspikes_all=se.NwbSortingExtractor('sorting_heardingspikes_all.nwb');
+                    sorter=sorting_herdingspikes_all;
                 
                 else:
                     t = time.time()
-                    #When herdingspikes fails, assign the results from Klusta.
                     try:
                         sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
+                        print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
+                        time.time() - t
+                        #Save herdingspikes
+                        se.NwbRecordingExtractor.write_recording(recording_cache, 'sorting_herdingspikes_all.nwb')
+                        try: 
+                            se.NwbSortingExtractor.write_sorting(sorting_herdingspikes_all, 'sorting_herdingspikes_all.nwb')
+                        except TypeError:
+                            print("No units detected.  Can't save HerdingSpikes")
+                            os.remove("sorting_herdingspikes_all.nwb")
+                        sorter=sorting_herdingspikes_all;                        
                     except:
                             print('Herdingspikes has failed')
-                            if 'sorting_KL_all.nwb' in arr:
-                                print('Loading Klusta')
-                                sorting_KL_all=se.NwbSortingExtractor('sorting_KL_all.nwb');
-                            
-                            else:
-                                t = time.time()
-                                sorting_KL_all = ss.run_klusta(recording_cache, output_folder='results_all_klusta',delete_output_folder=True)
-                            
-                            sorting_herdingspikes_all =sorting_KL_all;        
-                    print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
-                    time.time() - t
-                    #Save herdingspikes
-                    se.NwbRecordingExtractor.write_recording(recording_cache, 'sorting_herdingspikes_all.nwb')
-                    try: 
-                        se.NwbSortingExtractor.write_sorting(sorting_herdingspikes_all, 'sorting_herdingspikes_all.nwb')
-                    except TypeError:
-                        print("No units detected.  Can't save HerdingSpikes")
-                        os.remove("sorting_herdingspikes_all.nwb")
-                sorter=sorting_herdingspikes_all;
+                            sorter=[];
             
             if 'MS4' in i:
                 #Mountainsort4
@@ -532,7 +526,7 @@ def manual(recording_folder):
                 
                 else:
                     t = time.time()
-                    sorting_mountainsort4_all = ss.run_mountainsort4(recording_cache, output_folder='results_all_mountainsort4',delete_output_folder=True)
+                    sorting_mountainsort4_all = ss.run_mountainsort4(recording_cache, output_folder='results_all_mountainsort4',delete_output_folder=True, filter=False)
                     print('Found', len(sorting_mountainsort4_all.get_unit_ids()), 'units')
                     print(time.time() - t)
                     #Save mountainsort4
@@ -544,7 +538,7 @@ def manual(recording_folder):
                 #Spykingcircus
                 if 'sorting_spykingcircus_all.nwb' in arr:
                     print('Loading spykingcircus')
-                    sorting_spykingcircus_all=se.NwbSortingExtractor('sorting_spykingcircus_all.nwb');
+                    sorting_spykingcircus_all=se.NwbSortingExtractor('sorting_spykingcircus_all.nwb', filter=False);
                 
                 else:
                     t = time.time()
@@ -583,7 +577,9 @@ def manual(recording_folder):
                     se.NwbSortingExtractor.write_sorting(sorting_tridesclous_all, 'sorting_tridesclous_all.nwb')
                 sorter=sorting_tridesclous_all;
             
-                
+           #Check if sorter failed  
+            if not sorter:
+                continue                
             
             st.postprocessing.export_to_phy(recording_cache, 
                                             sorter, output_folder='phy_'+i,
