@@ -22,11 +22,16 @@ or pasting it in `gedit ~/.bashrc` to add it permanently.
 python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
 ```
 copy into merged folder:
-all_channels.events
-Continuous_Data.openephys
-messages.events
-settings.xml
-tetrode.prb
+
+-all_channels.events
+
+-Continuous_Data.openephys
+
+-messages.events
+
+-settings.xml
+
+-tetrode.prb
 
 3.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
