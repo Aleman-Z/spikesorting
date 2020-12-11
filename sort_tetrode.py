@@ -36,12 +36,12 @@ ss.IronClustSorter.set_ironclust_path('/home/adrian/Documents/SpikeSorting/ironc
 ss.IronClustSorter.ironclust_path
 
 #HDSort
-ss.HDSortSorter.set_hdsort_path('/home/adrian/Documents/SpikeSorting/HDsort')
-ss.HDSortSorter.hdsort_path
+#ss.HDSortSorter.set_hdsort_path('/home/adrian/Documents/SpikeSorting/HDsort')
+#ss.HDSortSorter.hdsort_path
 
 #Waveclus
-ss.WaveClusSorter.set_waveclus_path('/home/adrian/Documents/SpikeSorting/wave_clus')
-ss.WaveClusSorter.waveclus_path
+#ss.WaveClusSorter.set_waveclus_path('/home/adrian/Documents/SpikeSorting/wave_clus')
+#ss.WaveClusSorter.waveclus_path
 
 #Check if the recording has been preprocessed before and load it.
 # Else proceed with preprocessing.
@@ -175,7 +175,7 @@ else:
         print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
         time.time() - t
         #Save herdingspikes
-        se.NwbRecordingExtractor.write_recording(recording_cache, 'sorting_herdingspikes_all.nwb')
+        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_herdingspikes_all.nwb')
         try: 
             se.NwbSortingExtractor.write_sorting(sorting_herdingspikes_all, 'sorting_herdingspikes_all.nwb')
         except TypeError:
