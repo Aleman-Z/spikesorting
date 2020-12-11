@@ -507,7 +507,7 @@ def manual(recording_folder):
                         print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
                         time.time() - t
                         #Save herdingspikes
-                        se.NwbRecordingExtractor.write_recording(recording_cache, 'sorting_herdingspikes_all.nwb')
+                        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_herdingspikes_all.nwb')
                         try: 
                             se.NwbSortingExtractor.write_sorting(sorting_herdingspikes_all, 'sorting_herdingspikes_all.nwb')
                         except TypeError:
