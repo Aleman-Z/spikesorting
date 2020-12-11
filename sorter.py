@@ -39,12 +39,12 @@ def auto(recording_folder):
     ss.IronClustSorter.ironclust_path
     
     #HDSort
-    ss.HDSortSorter.set_hdsort_path('/home/adrian/Documents/SpikeSorting/HDsort')
-    ss.HDSortSorter.hdsort_path
+    #ss.HDSortSorter.set_hdsort_path('/home/adrian/Documents/SpikeSorting/HDsort')
+    #ss.HDSortSorter.hdsort_path
     
     #Waveclus
-    ss.WaveClusSorter.set_waveclus_path('/home/adrian/Documents/SpikeSorting/wave_clus')
-    ss.WaveClusSorter.waveclus_path
+    #ss.WaveClusSorter.set_waveclus_path('/home/adrian/Documents/SpikeSorting/wave_clus')
+    #ss.WaveClusSorter.waveclus_path
     
     #Check if the recording has been preprocessed before and load it.
     # Else proceed with preprocessing.
