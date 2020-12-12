@@ -59,7 +59,7 @@ python -m run_tetrodes_manual  ‘complete_path_of_brain_region_folder_with_tetr
 To load pre-computed sorter results and export to phy with the raw signal you can use this script and adapt accordingly:
 `view_sorter_detections.py`
 
-To view previously computed consensus-based units in phy simply type this line in the template folder:
+To view previously computed consensus-based units in phy simply type this line in the tetrode folder:
 ```
 os.system('phy template-gui phy_AGR/params.py')
 ```
