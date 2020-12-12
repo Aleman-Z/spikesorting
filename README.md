@@ -3,7 +3,7 @@ Automatic and manual spike sorting based on SpikeInterface.
 
 Dependencies: Same as [Spikeinterface](https://github.com/SpikeInterface/spiketutorials/tree/master/NWB_Developer_Breakout_Session_Sep2020)
 
-For sort_tetrode.py install sorters as mentioned on this page:
+Please install each sorter as mentioned on this page:
 
 https://spikeinterface.readthedocs.io/en/latest/sortersinfo.html
 
