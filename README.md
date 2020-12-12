@@ -1,7 +1,7 @@
 # spikesorting
 Automatic and manual spike sorting based on SpikeInterface.
 
-<img src="cover_image.jpg" width="400">
+<img src="cover_image.JPG" width="400">
 
 Dependencies: Same as [Spikeinterface](https://github.com/SpikeInterface/spiketutorials/tree/master/NWB_Developer_Breakout_Session_Sep2020)
 
