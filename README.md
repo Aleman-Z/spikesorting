@@ -7,6 +7,8 @@ For sort_tetrode.py install sorters as mentioned on this page:
 
 https://spikeinterface.readthedocs.io/en/latest/sortersinfo.html
 
+For Matlab-based sorters please save them in the following folder : ~/Documents/SpikeSorting/
+
 To be used on Linux :penguin: Add this folder to your path by typing in terminal:
 ```
 export PYTHONPATH=$PYTHONPATH:/path/to/this/folder
