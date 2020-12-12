@@ -23,7 +23,7 @@ or pasting it in `gedit ~/.bashrc` to add it permanently.
 ```
 python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
 ```
-copy into merged folder:
+copy these files into the merged folder:
 
 -all_channels.events
 
