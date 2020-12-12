@@ -34,8 +34,10 @@ def auto(recording_folder):
     Adding Matlab-based sorters to path
     
     """
+        
     #IronClust
-    ss.IronClustSorter.set_ironclust_path('/home/adrian/Documents/SpikeSorting/ironclust')
+    iron_path = "~/Documents/SpikeSorting/ironclust";    
+    ss.IronClustSorter.set_ironclust_path(os.path.expanduser(iron_path))
     ss.IronClustSorter.ironclust_path
     
     #HDSort
@@ -379,6 +381,16 @@ def manual(recording_folder):
     #recording_folder='/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH';
     
     os.chdir(recording_folder)
+    
+    """
+    Adding Matlab-based sorters to path
+    
+    """
+        
+    #IronClust
+    iron_path = "~/Documents/SpikeSorting/ironclust";    
+    ss.IronClustSorter.set_ironclust_path(os.path.expanduser(iron_path))
+    ss.IronClustSorter.ironclust_path
     
     #If sorter has already been run skip it.
     subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];

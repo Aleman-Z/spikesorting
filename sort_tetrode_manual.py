@@ -27,6 +27,16 @@ import csv
 recording_folder=sys.argv[1];
 os.chdir(recording_folder)
 
+"""
+Adding Matlab-based sorters to path
+
+"""
+iron_path = "~/Documents/SpikeSorting/ironclust";
+
+#IronClust
+ss.IronClustSorter.set_ironclust_path(os.path.expanduser(iron_path))
+ss.IronClustSorter.ironclust_path
+
 #Check if the recording has been preprocessed before and load it.
 # Else proceed with preprocessing.
 arr = os.listdir()

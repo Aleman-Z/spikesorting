@@ -28,17 +28,19 @@ os.chdir(recording_folder)
 Adding Matlab-based sorters to path
 
 """
+iron_path = "~/Documents/SpikeSorting/ironclust";
+
 #IronClust
-ss.IronClustSorter.set_ironclust_path('/home/adrian/Documents/SpikeSorting/ironclust')
+ss.IronClustSorter.set_ironclust_path(os.path.expanduser(iron_path))
 ss.IronClustSorter.ironclust_path
 
-#HDSort
-ss.HDSortSorter.set_hdsort_path('/home/adrian/Documents/SpikeSorting/HDsort')
-ss.HDSortSorter.hdsort_path
+# #HDSort
+# ss.HDSortSorter.set_hdsort_path('/home/adrian/Documents/SpikeSorting/HDsort')
+# ss.HDSortSorter.hdsort_path
 
-#Waveclus
-ss.WaveClusSorter.set_waveclus_path('/home/adrian/Documents/SpikeSorting/wave_clus')
-ss.WaveClusSorter.waveclus_path
+# #Waveclus
+# ss.WaveClusSorter.set_waveclus_path('/home/adrian/Documents/SpikeSorting/wave_clus')
+# ss.WaveClusSorter.waveclus_path
 
 #Check if the recording has been preprocessed before and load it.
 # Else proceed with preprocessing.

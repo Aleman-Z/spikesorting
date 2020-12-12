@@ -31,8 +31,10 @@ os.chdir(recording_folder)
 Adding Matlab-based sorters to path
 
 """
+iron_path = "~/Documents/SpikeSorting/ironclust";
+
 #IronClust
-ss.IronClustSorter.set_ironclust_path('/home/adrian/Documents/SpikeSorting/ironclust')
+ss.IronClustSorter.set_ironclust_path(os.path.expanduser(iron_path))
 ss.IronClustSorter.ironclust_path
 
 #HDSort
