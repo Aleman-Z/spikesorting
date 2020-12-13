@@ -140,7 +140,7 @@ end
 if j==1
 Trial_durations=table;
 Trial_durations.Variables=[ [{'Samples'};{'Cumulative Samples'};{'Seconds'}; {'Cumulative Seconds'};{'Minutes'}; {'Cumulative Minutes'};{'Hours'}; {'Cumulative Hours'}] [num2cell(trial_durations);num2cell(cumsum(trial_durations)); num2cell(trial_durations/fs); num2cell(cumsum(trial_durations/fs));num2cell(trial_durations/fs/60); num2cell(cumsum(trial_durations/fs/60));num2cell(trial_durations/fs/60/60); num2cell(cumsum(trial_durations/fs/60/60))] ];
-Trial_durations.Properties.VariableNames=[{'Unit'} folders];
+Trial_durations.Properties.VariableNames=[{'Unit'} cellfun(@(x) strrep(x(find(isletter(x), 1):end),'-','_') ,folders,'UniformOutput',false)];
 writetable(Trial_durations,strcat('Trial_durations.xls'),'Sheet',1,'Range','A1:Z50')
 save('trials_durations_samples.mat','trial_durations')
 end
