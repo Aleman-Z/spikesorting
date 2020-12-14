@@ -661,6 +661,119 @@ def manual(recording_folder):
     #End of for loop
     print("Stop the code here")
     
+def ms4(recording_folder):
+    
+    os.chdir(recording_folder)
+    
+    #If sorter has already been run skip it.
+    subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
+    if ('phy_MS4' in subfolders):
+        print('Tetrode '+recording_folder.split('_')[-1]+' was previously sorted. Skipping')
+        return
+    
+    print('Running Mountain Sort 4 on Tetrode '+recording_folder.split('_')[-1])
+
+    #Check if the recording has been preprocessed before and load it.
+    # Else proceed with preprocessing.
+    arr = os.listdir()
+            
+    #Load .continuous files 
+    recording = se.OpenEphysRecordingExtractor(recording_folder) 
+    channel_ids = recording.get_channel_ids() 
+    fs = recording.get_sampling_frequency()
+    num_chan = recording.get_num_channels()
+    
+    
+    print('Channel ids:', channel_ids)
+    print('Sampling frequency:', fs)
+    print('Number of channels:', num_chan)
+    
+    
+    #!cat tetrode9.prb #Asks for prb file
+    # os.system('cat /home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode9.prb') 
+    #recording_prb = recording.load_probe_file('/home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode.prb')
+    recording_prb = recording.load_probe_file('tetrode.prb')
+    
+    print('Channels after loading the probe file:', recording_prb.get_channel_ids())
+    print('Channel groups after loading the probe file:', recording_prb.get_channel_groups())
+    
+    #For testing only: Reduce recording.
+    #recording_prb = se.SubRecordingExtractor(recording_prb, start_frame=100*fs, end_frame=420*fs)
+    
+    
+    #Bandpass filter 
+    recording_cmr = st.preprocessing.bandpass_filter(recording_prb, freq_min=300, freq_max=6000)
+    recording_cache = se.CacheRecordingExtractor(recording_cmr) 
+    
+    print(recording_cache.get_channel_ids())
+    print(recording_cache.get_channel_groups())
+    print(recording_cache.get_num_frames() / recording_cache.get_sampling_frequency())
+        
+    
+    #%% Run all channels. There are only a single tetrode channels anyway.
+    
+    #Create sub recording to avoid saving whole recording.Requirement from NWB to allow saving sorters data. 
+    recording_sub = se.SubRecordingExtractor(recording_cache, start_frame=200*fs, end_frame=320*fs)
+        
+    #Mountainsort4
+    if 'sorting_mountainsort4_all.nwb' in arr:
+        print('Loading mountainsort4')
+        sorting_mountainsort4_all=se.NwbSortingExtractor('sorting_mountainsort4_all.nwb');
+    
+    else:
+        t = time.time()
+        sorting_mountainsort4_all = ss.run_mountainsort4(recording_cache, output_folder='results_all_mountainsort4',delete_output_folder=True, filter=False)
+        print('Found', len(sorting_mountainsort4_all.get_unit_ids()), 'units')
+        time.time() - t
+        #Save mountainsort4
+        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_mountainsort4_all.nwb')
+        se.NwbSortingExtractor.write_sorting(sorting_mountainsort4_all, 'sorting_mountainsort4_all.nwb')
+    
+        
+    
+    
+
+    
+    print(sorting_mountainsort4_all.get_unit_ids())
+        
+    st.postprocessing.export_to_phy(recording_cache, 
+                                    sorting_mountainsort4_all, output_folder='phy_MS4',
+                                    grouping_property='group', verbose=True, recompute_info=True)
+            
+    w_wf = sw.plot_unit_templates(sorting=sorting_mountainsort4_all, recording=recording_cache)
+    plt.savefig('unit_templates.pdf', bbox_inches='tight');
+    plt.savefig('unit_templates.png', bbox_inches='tight');
+    plt.close()
+    
+    
+    #Access unit ID and firing rate.
+    os.chdir('phy_MS4')
+    spike_times=np.load('spike_times.npy');
+    spike_clusters=np.load('spike_clusters.npy');
+    
+    #Create a list with the unit IDs
+    some_list=np.unique(spike_clusters)
+    some_list=some_list.tolist()
+    
+    #Bin data in bins of 25ms
+    #45 minutes
+    bins=np.arange(start=0, stop=45*60*fs+1, step=.025*fs)
+    NData=np.zeros([np.unique(spike_clusters).shape[0],bins.shape[0]-1])
+    
+    cont=0;
+    for x in some_list:
+        ind=(spike_clusters==x)
+        fi=spike_times[ind]
+        inds = np.histogram(fi, bins=bins)
+        inds1=inds[0]
+        NData[cont,:]=inds1;
+        cont=cont+1;
+    
+    #Save activation matrix
+    os.chdir("..")
+    a=os.path.split(os.getcwd())[1]
+    np.save('actmat_auto_'+a.split('_')[1], NData)
+    np.save('unit_id_auto_'+a.split('_')[1],some_list)
     
 
 if __name__ == '__main__':
