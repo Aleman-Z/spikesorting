@@ -8,9 +8,12 @@ Created on Mon Nov 16 15:22:30 2020
 import os
 import sorter
 import sys
+import json
+import numpy as np
 
 #folder=os.getcwd()
 folder=sys.argv[1];
+os.chdir(folder);
 
 subfolders = [ f.path for f in os.scandir(folder) if f.is_dir() ]
 
@@ -28,5 +31,24 @@ for f in NF:
 
 mylist = [subfolders[i] for i in ind]
 
+#Look for json file. If there is no file then run consensus in all tetrodes.
+try:
+    print('Reading JSON')
+    with open("run_consensus.json", 'r') as f:
+        run_consensus = json.load(f)
+        run_consensus=np.array(run_consensus);
+except FileNotFoundError:
+    #No file. We make all values ones.
+    print('JSON not found. Please add JSON.')
+    #run_consensus=np.ones(len(mylist), dtype=int);
+    sys.exit()
+
+counter=0;
 for tetrode in mylist:
-    sorter.manual(tetrode)
+    if run_consensus[counter]== 1:
+        print('Manual curation on consensus detections')
+        sorter.manual_phy(tetrode)
+    else:
+        print('Manual curation on MS4 detections')
+        sorter.manual_phy(tetrode)
+    counter=counter+1;

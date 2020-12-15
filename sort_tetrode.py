@@ -313,15 +313,17 @@ plt.close()
 agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=2)
 
 print(agreement_sorting.get_unit_ids())
+phy_folder_name='phy_AGR';
 if not(agreement_sorting.get_unit_ids()): #If there is no agreement.
     # print('No consensus. Finding sorter with closest to expected amount of units')
     # print(Sorters2CompareLabel[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))])
     # agreement_sorting=Sorters2Compare[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))]
-    print('No consensus. Using detections from Ironclus')
-    agreement_sorting=sorting_IC_all;
+    print('No consensus. Using detections from MountainSort4')
+    agreement_sorting=sorting_mountainsort4_all;
+    phy_folder_name='phy_MS4';
     
 st.postprocessing.export_to_phy(recording_cache, 
-                                agreement_sorting, output_folder='phy_AGR',
+                                agreement_sorting, output_folder=phy_folder_name,
                                 grouping_property='group', verbose=True, recompute_info=True)
 
 
@@ -343,7 +345,7 @@ plt.close()
 
 
 #Access unit ID and firing rate.
-os.chdir('phy_AGR')
+os.chdir(phy_folder_name)
 spike_times=np.load('spike_times.npy');
 spike_clusters=np.load('spike_clusters.npy');
 

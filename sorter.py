@@ -26,7 +26,7 @@ def auto(recording_folder):
     
     #If sorter has already been run skip it.
     subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
-    if ('phy_AGR' in subfolders):
+    if ('phy_AGR' in subfolders) or ('phy_MS4' in subfolders):
         print('Tetrode '+recording_folder.split('_')[-1]+' was previously sorted. Skipping')
         return
 
@@ -317,15 +317,17 @@ def auto(recording_folder):
     agreement_sorting = mcmp.get_agreement_sorting(minimum_agreement_count=2)
     
     print(agreement_sorting.get_unit_ids())
+    phy_folder_name='phy_AGR';
     if not(agreement_sorting.get_unit_ids()): #If there is no agreement.
         # print('No consensus. Finding sorter with closest to expected amount of units')
         # print(Sorters2CompareLabel[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))])
         # agreement_sorting=Sorters2Compare[SortersCount.index(min(SortersCount, key=lambda x:abs(x-10)))]
-        print('No consensus. Using detections from Ironclus')
-        agreement_sorting=sorting_IC_all;
+        print('No consensus. Using detections from MountainSort4')
+        agreement_sorting=sorting_mountainsort4_all;
+        phy_folder_name='phy_MS4';
         
     st.postprocessing.export_to_phy(recording_cache, 
-                                    agreement_sorting, output_folder='phy_AGR',
+                                    agreement_sorting, output_folder=phy_folder_name,
                                     grouping_property='group', verbose=True, recompute_info=True)
     
     
@@ -347,7 +349,7 @@ def auto(recording_folder):
     
     
     #Access unit ID and firing rate.
-    os.chdir('phy_AGR')
+    os.chdir(phy_folder_name)
     spike_times=np.load('spike_times.npy');
     spike_clusters=np.load('spike_clusters.npy');
     
@@ -775,6 +777,113 @@ def ms4(recording_folder):
     np.save('actmat_auto_'+a.split('_')[1], NData)
     np.save('unit_id_auto_'+a.split('_')[1],some_list)
     
+def manual_phy(recording_folder):
+    os.chdir(recording_folder)
+    
+    arr = os.listdir()
+    
+    a=os.path.split(os.getcwd())[1]
+    actmat_file=('actmat_manual_'+a.split('_')[1]);
+
+    #If sorter has already been run skip it.
+    if (actmat_file+'.npy' in arr):
+        print('Tetrode '+recording_folder.split('_')[-1]+' was previously manually sorted. Skipping')
+        return
+
+    
+    
+    subfolders = [ f.name for f in os.scandir(recording_folder) if f.is_dir() ];
+    phy_folder = [s for s in subfolders if "phy" in s]
+    
+        
+    # #Load .continuous files 
+    # recording = se.OpenEphysRecordingExtractor(recording_folder) 
+    # channel_ids = recording.get_channel_ids() 
+    # fs = recording.get_sampling_frequency()
+    # num_chan = recording.get_num_channels()
+    
+    
+    # print('Channel ids:', channel_ids)
+    # print('Sampling frequency:', fs)
+    # print('Number of channels:', num_chan)
+    
+    
+    # #!cat tetrode9.prb #Asks for prb file
+    # # os.system('cat /home/adrian/Documents/SpikeSorting/Adrian_test_data/Irene_data/test_without_zero_main_channels/Tetrode_9_CH/tetrode9.prb') 
+    # recording_prb = recording.load_probe_file(os.getcwd()+'/tetrode.prb')
+    
+    # print('Channels after loading the probe file:', recording_prb.get_channel_ids())
+    # print('Channel groups after loading the probe file:', recording_prb.get_channel_groups())
+    
+    # #For testing only: Reduce recording.
+    # #recording_prb = se.SubRecordingExtractor(recording_prb, start_frame=100*fs, end_frame=420*fs)
+    
+    
+    # #Bandpass filter 
+    # recording_cmr = st.preprocessing.bandpass_filter(recording_prb, freq_min=300, freq_max=6000)
+    # recording_cache = se.CacheRecordingExtractor(recording_cmr);
+    
+    
+    # print(recording_cache.get_channel_ids())
+    # print(recording_cache.get_channel_groups())
+    # print(recording_cache.get_num_frames() / recording_cache.get_sampling_frequency())
+    
+      
+    #Open phy interface
+    os.system('phy template-gui '+phy_folder[0]+'/params.py') 
+   
+    
+    #Print waveforms of units
+    # w_wf = sw.plot_unit_templates(sorting=sorting_phy_curated, recording=recording_cache)
+    # plt.savefig('manual_'+i+'_unit_templates.pdf', bbox_inches='tight');
+    # plt.savefig('manual_'+i+'_unit_templates.png', bbox_inches='tight');
+    # plt.close()
+    
+        
+    #Access unit ID and firing rate.
+    os.chdir(phy_folder[0])
+    spike_times=np.load('spike_times.npy');
+    spike_clusters=np.load('spike_clusters.npy');
+    #Find units curated as 'noise'
+    noise_id=[];    
+    with open("cluster_group.tsv") as fd:
+        rd = csv.reader(fd, delimiter="\t", quotechar='"')
+        for row in rd:
+            if row[1]=='noise':
+                noise_id.append(int(row[0]))
+    #Create a list with the unit IDs and remove those labeled as 'noise'
+    some_list=np.unique(spike_clusters)
+    some_list=some_list.tolist()
+    for x in noise_id:    
+        print(x)
+        some_list.remove(x)
+    
+    #Bin data in bins of 25ms
+    #45 minutes
+    fs=30000;
+    bins=np.arange(start=0, stop=45*60*fs+1, step=.025*fs)
+    NData=np.zeros([np.unique(spike_clusters).shape[0]-len(noise_id),bins.shape[0]-1])
+    
+    cont=0;    
+    for x in some_list:    
+        #print(x)
+        ind=(spike_clusters==x)
+        fi=spike_times[ind]
+        inds = np.histogram(fi, bins=bins)
+        inds1=inds[0]
+        NData[cont,:]=inds1;
+        cont=cont+1;
+    
+    #Save activation matrix
+    os.chdir("..")
+    a=os.path.split(os.getcwd())[1]
+    np.save('actmat_manual_'+a.split('_')[1], NData)
+    np.save('unit_id_manual_'+a.split('_')[1],some_list)
+    
+    #End of for loop
+    print("Stop the code here")
+
+
 
 if __name__ == '__main__':
     globals()[sys.argv[1]](sys.argv[2])
