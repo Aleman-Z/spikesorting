@@ -14,7 +14,7 @@ current_folder=sys.argv[1];
 os.chdir(current_folder)
 folders=['hpc','cortex']
 #j=0;
-for j in range(2):
+for j in range(len(folders)):
     #Create folder brain region
     os.mkdir(folders[j])
     
