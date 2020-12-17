@@ -52,7 +52,7 @@ python -m run_tetrodes  ‘complete_path_of_brain_region_folder_with_tetrodes’
 ```
 If you are running this first on the concatenated 'Trial1+PostTrial1 signal, then you need to generate the JSON file
 which will indicate the sorter if there was consensus or not and if it should run all sorters on the whole day recording.
-To do this you can use 'create_json.py':
+To do this you can use `create_json.py`:
 ```
 python -m create_json  ‘complete_path_of_brain_region_folder_with_tetrodes’
 ```
