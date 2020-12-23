@@ -1,5 +1,5 @@
 # spikesorting
-Automatic and manual spike sorting based on SpikeInterface.
+Automatic and manual spike sorting for tetrodes recordings based on SpikeInterface.
 <p align="center">
 <img src="cover.JPG" width="600">
 </p>
