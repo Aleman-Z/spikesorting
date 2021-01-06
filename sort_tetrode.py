@@ -164,10 +164,11 @@ SortersCount.append(len(sorting_IC_all.get_unit_ids()))
 #Herdingspikes
 if 'sorting_herdingspikes_all.nwb' in arr:
     print('Loading herdingspikes')
-    sorting_herdingspikes_all=se.NwbSortingExtractor('sorting_heardingspikes_all.nwb');
+    sorting_herdingspikes_all=se.NwbSortingExtractor('sorting_herdingspikes_all.nwb');
     if not(not(sorting_herdingspikes_all.get_unit_ids())):
         Sorters2Compare.append(sorting_herdingspikes_all);
         Sorters2CompareLabel.append('HS');
+    SortersCount.append(len(sorting_herdingspikes_all.get_unit_ids()))    
 
 else:
     t = time.time()
@@ -263,19 +264,23 @@ if 'sorting_tridesclous_all.nwb' in arr:
     if not(not(sorting_tridesclous_all.get_unit_ids())):
         Sorters2Compare.append(sorting_tridesclous_all);
         Sorters2CompareLabel.append('TRI');
+    SortersCount.append(len(sorting_tridesclous_all.get_unit_ids()))    
               
 else:
-    t = time.time()
-    sorting_tridesclous_all = ss.run_tridesclous(recording_cache, output_folder='results_all_tridesclous',delete_output_folder=True)
-    print('Found', len(sorting_tridesclous_all.get_unit_ids()), 'units')
-    time.time() - t
-    #Save sorting_tridesclous
-    se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_tridesclous_all.nwb')
-    se.NwbSortingExtractor.write_sorting(sorting_tridesclous_all, 'sorting_tridesclous_all.nwb')
-    if not(not(sorting_tridesclous_all.get_unit_ids())):
-        Sorters2Compare.append(sorting_tridesclous_all);
-        Sorters2CompareLabel.append('TRI');
-SortersCount.append(len(sorting_tridesclous_all.get_unit_ids()))    
+    try:
+        t = time.time()
+        sorting_tridesclous_all = ss.run_tridesclous(recording_cache, output_folder='results_all_tridesclous',delete_output_folder=True)
+        print('Found', len(sorting_tridesclous_all.get_unit_ids()), 'units')
+        time.time() - t
+        #Save sorting_tridesclous
+        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_tridesclous_all.nwb')
+        se.NwbSortingExtractor.write_sorting(sorting_tridesclous_all, 'sorting_tridesclous_all.nwb')
+        if not(not(sorting_tridesclous_all.get_unit_ids())):
+            Sorters2Compare.append(sorting_tridesclous_all);
+            Sorters2CompareLabel.append('TRI');
+        SortersCount.append(len(sorting_tridesclous_all.get_unit_ids())) 
+    except:
+        print('Tridesclous failed')  
 
 try:
     rmtree("results_all_tridesclous")
