@@ -175,8 +175,8 @@ def auto(recording_folder):
         SortersCount.append(len(sorting_herdingspikes_all.get_unit_ids()))        
     
     else:
-        t = time.time()
         try:
+            t = time.time()
             sorting_herdingspikes_all = ss.run_herdingspikes(recording_cache, output_folder='results_all_herdingspikes',delete_output_folder=True)
     
             print('Found', len(sorting_herdingspikes_all.get_unit_ids()), 'units')
@@ -235,20 +235,24 @@ def auto(recording_folder):
         if not(not(sorting_spykingcircus_all.get_unit_ids())):
             Sorters2Compare.append(sorting_spykingcircus_all);
             Sorters2CompareLabel.append('SC');
+        SortersCount.append(len(sorting_spykingcircus_all.get_unit_ids()))    
     
     else:
-        t = time.time()
-        sorting_spykingcircus_all = ss.run_spykingcircus(recording_cache, output_folder='results_all_spykingcircus',delete_output_folder=True, filter=False)
-        print('Found', len(sorting_spykingcircus_all.get_unit_ids()), 'units')
-        time.time() - t
-        #Save sorting_spykingcircus
-        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_spykingcircus_all.nwb')
-        se.NwbSortingExtractor.write_sorting(sorting_spykingcircus_all, 'sorting_spykingcircus_all.nwb')
-        if not(not(sorting_spykingcircus_all.get_unit_ids())):
-            Sorters2Compare.append(sorting_spykingcircus_all);
-            Sorters2CompareLabel.append('SC');
-    SortersCount.append(len(sorting_spykingcircus_all.get_unit_ids()))    
-    
+        try:
+            t = time.time()
+            sorting_spykingcircus_all = ss.run_spykingcircus(recording_cache, output_folder='results_all_spykingcircus',delete_output_folder=True, filter=False)
+            print('Found', len(sorting_spykingcircus_all.get_unit_ids()), 'units')
+            time.time() - t
+            #Save sorting_spykingcircus
+            se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_spykingcircus_all.nwb')
+            se.NwbSortingExtractor.write_sorting(sorting_spykingcircus_all, 'sorting_spykingcircus_all.nwb')
+            if not(not(sorting_spykingcircus_all.get_unit_ids())):
+                Sorters2Compare.append(sorting_spykingcircus_all);
+                Sorters2CompareLabel.append('SC');
+            SortersCount.append(len(sorting_spykingcircus_all.get_unit_ids()))    
+        except:
+                print('Spykingcircus has failed')
+                
         
     #Tridesclous
     if 'sorting_tridesclous_all.nwb' in arr:
