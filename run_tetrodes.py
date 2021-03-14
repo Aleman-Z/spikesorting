@@ -10,6 +10,7 @@ import sorter
 import sys
 import json
 import numpy as np
+import time
 
 #folder=os.getcwd()
 folder=sys.argv[1];
@@ -44,9 +45,14 @@ except FileNotFoundError:
 
 counter=0;
 for tetrode in mylist:
+    start = time.time()
+
     if run_consensus[counter]== 1:
         sorter.auto(tetrode)
     else:
         sorter.ms4(tetrode)
     counter=counter+1;
+
+    end = time.time()
+    print(end - start)
     
