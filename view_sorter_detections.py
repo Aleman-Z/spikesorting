@@ -79,9 +79,9 @@ print(recording_cache.get_num_frames() / recording_cache.get_sampling_frequency(
 
 #%%
 #sorting_mountainsort4_all = ss.run_mountainsort4(recording_cache, output_folder='results_all_mountainsort4',delete_output_folder=True, filter=False)
-sorting_mountainsort4_all=se.NwbSortingExtractor('sorting_mountainsort4_all.nwb');
+#sorting_mountainsort4_all=se.NwbSortingExtractor('sorting_mountainsort4_all.nwb');
 
-st.postprocessing.export_to_phy(recording_cache, 
+#st.postprocessing.export_to_phy(recording_cache, 
                                 sorting_mountainsort4_all, output_folder='phy_MS4',
                                 grouping_property='group', verbose=True, recompute_info=True)
 #%%
