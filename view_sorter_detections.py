@@ -82,8 +82,8 @@ print(recording_cache.get_num_frames() / recording_cache.get_sampling_frequency(
 #sorting_mountainsort4_all=se.NwbSortingExtractor('sorting_mountainsort4_all.nwb');
 
 #st.postprocessing.export_to_phy(recording_cache, 
-                                sorting_mountainsort4_all, output_folder='phy_MS4',
-                                grouping_property='group', verbose=True, recompute_info=True)
+#                                sorting_mountainsort4_all, output_folder='phy_MS4',
+#                                grouping_property='group', verbose=True, recompute_info=True)
 #%%
 sorting_check = se.PhySortingExtractor('phy_AGR/')
 
