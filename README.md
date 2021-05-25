@@ -78,3 +78,21 @@ To view a new consensus after having done a manual curation use:
 ```
 python -m consensus_post_curation  ‘complete_path_of_tetrode_folder’
 ```
+## Running in Spyder.
+For spyder open run_tetrodes.py but DONT RUN IT.
+Instead press:
+```
+Ctrl+A   # This will select the script.
+F9  # This will run the script.
+```
+
+
+## Running in Linux terminal.
+Currently this approach only works in Adrian's PC but it is the fastest way to spike sort.
+All you must do is type:
+```
+./loop
+```
+This will call run_tetrodes.py in an infinite loop. So make sure to stop it eventually!
+
+
