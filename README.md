@@ -21,8 +21,8 @@ or pasting it in `gedit ~/.bashrc` to add it permanently.
 -----------------------
 ## Spike sorting pipeline.
 
-1.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
-2.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
+2.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
+3.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 ```
 python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
 ```
@@ -38,15 +38,15 @@ copy these files into the merged folder:
 
 -tetrode.prb
 
-3.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
+4.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
 python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
 ```
-4.	Activate the environment where SpikeInterface was installed. 
+5.	Activate the environment where SpikeInterface was installed. 
 ```
 conda activate <Name of environment>
 ```
-5. Run the automatic spike sorter by going to terminal and typing:
+6. Run the automatic spike sorter by going to terminal and typing:
 ```
 python -m run_tetrodes  ‘complete_path_of_brain_region_folder_with_tetrodes’
 ```
@@ -63,9 +63,9 @@ Once you have the JSON files from both brain areas you may copy them into their 
 python -m run_tetrodes_manual  ‘complete_path_of_brain_region_folder_with_tetrodes’
 ```
 
-6.	If you are running `run_tetrodes_manual.py` the phy interface will pop up. Asking you to look at the detections from the used sorters and perform a manual curation. To label a detection as noise select it and press `Alt+N`. To label as MUA press `Alt+M`. To label as pyramidal unit press `Alt+G`. To label as interneuron simply leave it without a label (unsorted).  :warning: Very important: Once you are done make sure to __first save and then close the interface__. If you first close the interface a message will ask you to save but even if you do it, it will not save your curations! :warning:
-7.	For either `run_tetrodes.py` or `run_tetrodes_manual.py` a phy folder will be created, were one can find the spike_times.npy and spike_clusters.npy files. By binarizing the spike times of each spike (bin of 25ms) one can generate the activation matrix needed for the cell assembly analysis. This matrix is saved as ‘actmat_auto_tetrode#’.
-8.	The `phy2assembly.py` script will concatenate all activation matrices across tetrodes and then run the cell assembly detection.
+7.	If you are running `run_tetrodes_manual.py` the phy interface will pop up. Asking you to look at the detections from the used sorters and perform a manual curation. To label a detection as noise select it and press `Alt+N`. To label as MUA press `Alt+M`. To label as pyramidal unit press `Alt+G`. To label as interneuron simply leave it without a label (unsorted).  :warning: Very important: Once you are done make sure to __first save and then close the interface__. If you first close the interface a message will ask you to save but even if you do it, it will not save your curations! :warning:
+8.	For either `run_tetrodes.py` or `run_tetrodes_manual.py` a phy folder will be created, were one can find the spike_times.npy and spike_clusters.npy files. By binarizing the spike times of each spike (bin of 25ms) one can generate the activation matrix needed for the cell assembly analysis. This matrix is saved as ‘actmat_auto_tetrode#’.
+9.	The `phy2assembly.py` script will concatenate all activation matrices across tetrodes and then run the cell assembly detection.
 
 To load pre-computed sorter results and export to phy with the raw signal you can use this script and adapt accordingly:
 `view_sorter_detections.py`
