@@ -20,6 +20,10 @@ or pasting it in `gedit ~/.bashrc` to add it permanently.
 
 -----------------------
 ## Spike sorting pipeline.
+1.	Make sure your files are not corrupted or your channels have different lengths.  For that run `check_length.py`.
+```
+python -m check_length ‘complete_path_of_folder_with_Study_day_subfolders’
+```
 
 2.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
 3.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
