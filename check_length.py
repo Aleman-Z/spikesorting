@@ -55,24 +55,24 @@ for s in subdirectories:
     
     os.chdir("..")
 
-os.chdir('/media/adrian/GL13_RAT_BURSTY/Rat_OS_Ephys_RGS14_rat4_357153/Rat_OS_Ephys_RGS14_Rat4_357153_SD10_CON_29-30_11_2019/2019-11-29_09-33-21_Pre-sleep')
-basepath = Path(".").resolve()
-outpath = basepath / "truncated"
-#outpath.mkdir(exist_ok=True)
+#os.chdir('/media/adrian/GL13_RAT_BURSTY/Rat_OS_Ephys_RGS14_rat4_357153/Rat_OS_Ephys_RGS14_Rat4_357153_SD10_CON_29-30_11_2019/2019-11-29_09-33-21_Pre-sleep')
+#basepath = Path(".").resolve()
+#outpath = basepath / "truncated"
+##outpath.mkdir(exist_ok=True)
 
-cont = sorted(basepath.glob("*.continuous"))
-fsizes = [f.stat().st_size for f in cont]
-shortest, longest = min(fsizes), max(fsizes)
-if shortest != longest:
-    print("shortest:", shortest, "Bytes | longest:", longest, "Bytes")
-    trunc_bytes = math.floor((shortest-1024)/2070)*2070+1024
-    print(f"truncate to {trunc_bytes} bytes!")
+#cont = sorted(basepath.glob("*.continuous"))
+#fsizes = [f.stat().st_size for f in cont]
+#shortest, longest = min(fsizes), max(fsizes)
+#if shortest != longest:
+#    print("shortest:", shortest, "Bytes | longest:", longest, "Bytes")
+#    trunc_bytes = math.floor((shortest-1024)/2070)*2070+1024
+#    print(f"truncate to {trunc_bytes} bytes!")
     
-    outpath.mkdir(exist_ok=True)
-    for n, f in enumerate(cont):
-        mm = np.memmap(f, mode="r", dtype=np.uint8)
-        outfname = outpath / f.name
-        print(f"Truncating {outfname.name} to {trunc_bytes} Bytes, cutting {fsizes[n]-trunc_bytes} Bytes")
-        mm_out = np.memmap(outfname, mode="w+", shape=(trunc_bytes, ), dtype=np.uint8)
-        mm_out[:] = mm[:trunc_bytes]
-        del mm, mm_out
+#    outpath.mkdir(exist_ok=True)
+#    for n, f in enumerate(cont):
+#        mm = np.memmap(f, mode="r", dtype=np.uint8)
+#        outfname = outpath / f.name
+#        print(f"Truncating {outfname.name} to {trunc_bytes} Bytes, cutting {fsizes[n]-trunc_bytes} Bytes")
+#        mm_out = np.memmap(outfname, mode="w+", shape=(trunc_bytes, ), dtype=np.uint8)
+#        mm_out[:] = mm[:trunc_bytes]
+#        del mm, mm_out
