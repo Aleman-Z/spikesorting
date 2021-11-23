@@ -101,7 +101,9 @@ All you must do is type:
 ```
 ./loop
 ```
-This will call run_tetrodes.py in an infinite loop. So make sure to stop it eventually!
+This will call run_tetrodes_brain_areas.py in a loop until all tetrodes are sorted. 
+You can find the loop.sh in this repository as 'loop (copy)', just rename and remove the '(copy)'. 
+Make sure 'loop' is in your path. If not then add it by including the path in the last line of `gedit ~/.bashrc` as mentioned at the beginning. 
 
 
 ## Newest scripts, yet to be described:
