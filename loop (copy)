@@ -1,0 +1,87 @@
+#!/bin/bash
+
+#echo "Cortex T1-PT1"
+while true
+do
+START=$(date +%s.%N)
+	#python -m run_tetrodes
+	echo "Cortex T1-PT1"
+	python -m run_tetrodes_brain_areas '_Trial1_Post_Trial1_merged/cortex'
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
+
+#if [[ $DIFF -lt 10 ]]
+if (( $(echo "$DIFF < 10" |bc -l) ))
+then
+	echo "Transfer JSON"
+	python -m run_tetrodes_json 'cortex'
+	break
+fi
+
+done
+
+while true
+do
+START=$(date +%s.%N)
+	#python -m run_tetrodes
+	echo "Cortex merged"
+	python -m run_tetrodes_brain_areas '_merged/cortex'
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
+
+#if [[ $DIFF -lt 10 ]]
+if (( $(echo "$DIFF < 10" |bc -l) ))
+then
+	echo "break"
+	break
+fi
+
+done
+
+
+
+
+#echo "HPC T1-PT1"
+while true
+do
+START=$(date +%s.%N)
+	#python -m run_tetrodes
+	echo "HPC T1-PT1"
+	python -m run_tetrodes_brain_areas '_Trial1_Post_Trial1_merged/hpc'
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
+
+#if [[ $DIFF -lt 10 ]]
+if (( $(echo "$DIFF < 10" |bc -l) ))
+then
+	echo "Transfer JSON"
+	python -m run_tetrodes_json 'hpc'
+	break
+fi
+
+done
+
+
+
+
+while true
+do
+START=$(date +%s.%N)
+	#python -m run_tetrodes
+	echo "HPC merged"
+	python -m run_tetrodes_brain_areas '_merged/hpc'
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo $DIFF
+
+#if [[ $DIFF -lt 10 ]]
+if (( $(echo "$DIFF < 10" |bc -l) ))
+then
+	echo "break"
+	break
+fi
+
+done
