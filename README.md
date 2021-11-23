@@ -104,3 +104,12 @@ All you must do is type:
 This will call run_tetrodes.py in an infinite loop. So make sure to stop it eventually!
 
 
+## Newest scripts, yet to be described:
+
+run_tetrodes_brain_areas.py
+
+run_tetrodes_json.py
+
+run_tetrodes_loop.py
+
+truncate2.py
