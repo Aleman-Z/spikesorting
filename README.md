@@ -8,7 +8,7 @@ Dependencies: Same as [Spikeinterface](https://github.com/SpikeInterface/spiketu
 
 Please install each sorter as mentioned on this page:
 
-https://spikeinterface.readthedocs.io/en/latest/sortersinfo.html
+https://spikeinterface.readthedocs.io/en/latest/install_sorters.html
 
 For Matlab-based sorters please save them in the following folder : ~/Documents/SpikeSorting/
 
@@ -20,13 +20,20 @@ or pasting it in `gedit ~/.bashrc` to add it permanently.
 
 -----------------------
 ## Spike sorting pipeline.
-1.	Make sure your files are not corrupted or your channels have different lengths.  For that run `check_length.py`.
+
+1.	Activate the environment where SpikeInterface was installed. 
+```
+conda activate <Name of environment>
+```
+
+2.	Make sure your files are not corrupted or your channels have different lengths.  For that run `check_length.py`.
 ```
 python -m check_length ‘complete_path_of_folder_with_Study_day_subfolders’
 ```
 
-2.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
-3.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
+3.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
+
+4.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 ```
 python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
 ```
@@ -42,14 +49,11 @@ copy these files into the merged folder:
 
 -tetrode.prb
 
-4.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
+5.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
 python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
 ```
-5.	Activate the environment where SpikeInterface was installed. 
-```
-conda activate <Name of environment>
-```
+
 6. Run the automatic spike sorter by going to terminal and typing:
 ```
 python -m run_tetrodes  ‘complete_path_of_brain_region_folder_with_tetrodes’
