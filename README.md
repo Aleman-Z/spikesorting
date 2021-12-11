@@ -31,7 +31,7 @@ conda activate <Name of environment>
 python -m check_length ‘complete_path_of_folder_with_Study_day_subfolders’
 ```
 
-3.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
+3.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. __Make sure you use the right sampling rate (fs)! Rats 1-9 of the normal OS used 20kHz instead of 30kHz. Please ask if you have doubts__. Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
 
 4.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 ```
