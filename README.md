@@ -39,7 +39,7 @@ Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their
 ```
 python -m fix_channel_name ‘complete_path_of_folder_with_.continuous_files’
 ```
-copy these files into the merged folder:
+copy these files into the merged folder:  (You can copy them from any trial or post trial folder, they are all the same!)
 
 -all_channels.events
 
