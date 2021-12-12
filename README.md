@@ -53,6 +53,8 @@ copy these files into the merged folder:  (You can copy them from any trial or p
 
 -tetrode.prb [Download here](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb)
 
+- Don't forget the hpc.xlsx and cortex.xlsx files mentioned above! You can omit hpc.xlsx if you are not sorting hippocampal tetrodes.
+
 5.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
 python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
