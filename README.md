@@ -35,7 +35,7 @@ python -m check_length ‘complete_path_of_folder_with_Study_day_subfolders’
 
 You will have to run the merging twice. Once using only Trial1+ PostTrial1 and another time using Presleep+T1+PT1+T2+PT2+T3+PT3+T4+PT4+T5+PT5. For some rats you need to include the novelty trial. You will see it indicated in the comments of the [google planning sheet](https://docs.google.com/spreadsheets/d/1FvTOxkV9HDviEM8qUjApdJ_2NViZCOhmVhzIALzLDKA/edit#gid=949291845). 
 
-Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
+Generate the `hpc.xlsx` and `cortex.xlsx` files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
 
 4.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
 ```
@@ -53,7 +53,8 @@ copy these files into the merged folder:  (You can copy them from any trial or p
 
 -tetrode.prb [Download here](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb)
 
-- Don't forget the hpc.xlsx and cortex.xlsx files mentioned above! You can omit hpc.xlsx if you are not sorting hippocampal tetrodes.
+-hpc.xlsx and cortex.xlsx files mentioned above! You can omit hpc.xlsx if you are not sorting hippocampal tetrodes.
+
 
 5.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
