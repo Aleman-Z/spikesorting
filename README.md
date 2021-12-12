@@ -49,7 +49,7 @@ copy these files into the merged folder:  (You can copy them from any trial or p
 
 -settings.xml
 
--tetrode.prb
+-tetrode.prb [Download here](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb)
 
 5.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
 ```
