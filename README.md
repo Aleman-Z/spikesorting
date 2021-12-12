@@ -33,6 +33,8 @@ python -m check_length ‘complete_path_of_folder_with_Study_day_subfolders’
 
 3.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels.m` script in Matlab. __Make sure you use the right sampling rate (fs)! Rats 1-9 of the normal OS used 20kHz instead of 30kHz. Please ask if you have doubts__. To select the channels you should take a look at the excel sheets in the Dropbox. For OS animals look for the document named `RAT_OS_EPHYS_Channel_Normalization_Across_Animals.xlsx` and select the tab of the rat you want to spikesort.
 
+You will have to run the merging twice. Once using only Trial1+ PostTrial1 and another time using Presleep+T1+PT1+T2+PT2+T3+PT3+T4+PT4+T5+PT5. For some rats you need to include the novelty trial. You will see it indicated in the comments of the [google planning sheet](https://docs.google.com/spreadsheets/d/1FvTOxkV9HDviEM8qUjApdJ_2NViZCOhmVhzIALzLDKA/edit#gid=949291845). 
+
 Generate the hpc.xlsx and cortex.xlsx files indicating the tetrodes ID and their channels. Omit tetrodes which only have one valid channel or that are reference tetrodes.
 
 4.	If necessary fix file names by removing extra ‘_0’.  Run `fix_channel_name.py`.
