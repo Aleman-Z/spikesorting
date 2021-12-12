@@ -56,7 +56,7 @@ copy these files into the merged folder:  (You can copy them from any trial or p
 -hpc.xlsx and cortex.xlsx files mentioned above! You can omit hpc.xlsx if you are not sorting hippocampal tetrodes.
 
 
-5.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. 
+5.	Group channels by tetrode and save them in a new folder for that tetrode by running  `rearrange_folders.py`. If you are only sorting cortical tetrodes make sure that rearrange_folders.py contains the line __folders=['cortex']__ instead of __folders=['hpc', 'cortex']__.
 ```
 python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
 ```
