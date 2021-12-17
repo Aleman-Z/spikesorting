@@ -115,6 +115,15 @@ You can find the loop.sh in this repository as 'loop (copy)', just rename and re
 Make sure 'loop' is in your path. If not then add it by including the path in the last line of `gedit ~/.bashrc` as mentioned at the beginning. 
 
 
+## For reading Open ephys corrupted files:
+You should have a similar path structure like this one in your computer:
+```
+/home/Username /anaconda3/envs/spiketutorial/lib/python3.6/site-packages/pyopenephys
+```
+Here you will find the __openephys_tools.py__ which you need to edit. [This file](https://github.com/Aleman-Z/spikesorting/blob/main/openephys_tools.py#L49-L82) indicates the lines that need to be modified.
+
+
+
 ## Newest scripts, yet to be described:
 
 run_tetrodes_brain_areas.py
