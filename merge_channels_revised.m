@@ -4,13 +4,13 @@ addpath(genpath('/home/genzel/dimitris/ADRITOOLS-master'))
 addpath(genpath('/home/genzel/dimitris/analysis-tools-master'))
 
 %Sampling freq:
-fs=30000; %Can be different for some OS rats.
+fs=20000; %Can be different for some OS rats.
 
 %%
 %Get trial folders 
 cd ..
 cd ..
-cd('/mnt/genzel/Rat/OS/OS_rat_ephys/Rat_OS_Ephys_Rat13_344994/Rat_OS_Ephys_Rat13_344994_SD2_HC_15_05_2019')
+cd('/mnt/genzel/Rat/OS/OS_rat_ephys/Rat_OS_Ephys_Rat9_57989/Rat_OS_Ephys_Rat9_57989_SD1_OR_09-10_05_2018')
 
 folders=getfolder;
 folders=folders(or(or(contains(folders,'pre'),contains(folders,'trial')),contains(folders,'novelty')));
@@ -31,6 +31,39 @@ if exist('remove_ind','var') == 1
 end    
     
 
+answer = questdlg('Does this day need Novelty included?', ...
+	'Select one', ...
+	'Yes','No','No');
+% Handle response
+switch answer
+    case 'Yes'
+        if length(folders)> 12
+                         error('There are more folders than expected. Stop and check why.')
+        end        
+
+
+        if length(folders)< 12
+           error('There are less folders than expected. Stop and check why.')
+        end
+        
+    case 'No'
+        if length(folders)> 11
+             error('There are more folders than expected. Stop and check why.')
+        end
+
+        if length(folders)< 11
+           error('There are less folders than expected. Stop and check why.')
+        end
+end    
+    
+    
+
+
+
+% In case you need to remove an extra folder, you can use this example.
+%    folders{9}=[];
+%    folders = folders(~cellfun(@isempty, folders))
+
 %% Check that the order is correct in the printed folder names.
 
 %% Select channels to merge
@@ -38,22 +71,63 @@ end
 %     ];
 %%
 channels=[ ...
-14,29,15,16 ...
-63,45,62,44 ...
-42,64,33,43 ...
-36,35,41,34 ...
-40,39,38,37 ...
-54,55,57,56 ...
-52,53,59,58 ...
-49,60,50,51 ...
-46,61,47,48 ...
-12,31,13,30 ...
-10,11,32,1 ...
-4,3,2,9 ...
-8,6,5,7 ...
-22,25,23,24 ...
-20,21,27,26 ...
-17,28,18,19
+% 14,29,15,16 ...
+% 63,45,62,44 ...
+% 42,64,33,43 ...
+% 36,35,41,34 ...
+% 40,39,38,37 ...
+% 54,55,57,56 ...
+% 52,53,59,58 ...
+% 49,60,50,51 ...
+% 46,61,47,48 ...
+% 12,31,13,30 ...
+% 10,11,32,1 ...
+% 4,3,2,9 ...
+% 8,6,5,7 ...
+% 22,25,23,24 ...
+% 20,21,27,26 ...
+% 17,28,18,19
+63
+44
+45
+62
+42
+33
+43
+64
+36
+35
+41
+34
+40
+39
+38
+37
+54
+55
+57
+56
+52
+53
+59
+58
+49
+60
+50
+51
+20
+21
+27
+26
+17
+28
+18
+19
+14
+29
+15
+16
+
 ];
 
 
@@ -85,7 +159,7 @@ for j=1:length(channels)
             
             files=dir;
             files={files.name};
-            file=files(contains(files,['CH',num2str(channels(j)),'_']));
+            file=files(contains(files,['CH',num2str(channels(j))]));
             file=file{1};
             
             if  j==1   %Only run with the first channel.
@@ -117,7 +191,7 @@ for j=1:length(channels)
         
         files=dir;
         files={files.name};
-        file=files(contains(files,['CH',num2str(channels(j)),'_']));
+        file=files(contains(files,['CH',num2str(channels(j))]));
         file=file{1};
         
         if  j==1

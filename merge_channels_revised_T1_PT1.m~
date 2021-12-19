@@ -1,11 +1,11 @@
 %% Start by going to the Study day folder 
 %You need Adritools in your Matlab path. Else Matlab won't recognize'getfolder'.
-addpath(genpath('/home/genzel/dimitris/ADRITOOLS-master'))
-addpath(genpath('/home/genzel/dimitris/analysis-tools-master'))
+%addpath(genpath('/home/genzel/dimitris/ADRITOOLS-master'))
+%addpath(genpath('/home/genzel/dimitris/analysis-tools-master'))
 
 %Sampling freq:
-fs=20000; % For OS-normal Rats 1-9 this should be 20000.
-          % For other Rats of OS-normal and all RGS14 Rats use 30000.
+fs=20000; % For OS-normal Rats 1-9 this is 20000.
+
 %%
 %Get trial folders 
 cd ..
