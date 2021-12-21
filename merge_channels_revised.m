@@ -10,7 +10,7 @@ fs=20000; %Can be different for some OS rats.
 %Get trial folders 
 cd ..
 cd ..
-cd('/mnt/genzel/Rat/OS/OS_rat_ephys/Rat_OS_Ephys_Rat9_57989/Rat_OS_Ephys_Rat9_57989_SD1_OR_09-10_05_2018')
+cd('/media/genzel/Data/rat9/sd14/Rat_OS_Ephys_Rat9_57989_SD14_OR_SD_NOV_23-24_05_2018')
 
 folders=getfolder;
 folders=folders(or(or(contains(folders,'pre'),contains(folders,'trial')),contains(folders,'novelty')));
