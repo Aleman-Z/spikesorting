@@ -10,7 +10,9 @@ fs=20000; % For OS-normal Rats 1-9 this should be 20000.
 %Get trial folders 
 cd ..
 cd ..
-cd('/media/genzel/Data/rat9/sd14/Rat_OS_Ephys_Rat9_57989_SD14_OR_SD_NOV_23-24_05_2018')
+foldername='/media/genzel/Data/rat9/sd14/Rat_OS_Ephys_Rat9_57989_SD14_OR_SD_NOV_23-24_05_2018';
+addpath(genpath(foldername));
+cd(foldername)
 
 folders=getfolder;
 folders=folders(or(contains(folders,'trial1'),contains(folders,'post_trial1')));
@@ -113,7 +115,7 @@ for j=1:length(channels)
         file=file{1};
         
         if  j==1
-            signal=load_open_ephys_data_faster(file);
+            signal=load_open_ephys_data(file);
             trial_durations(i+1)=length(signal);
         end
         % load data from file 2
