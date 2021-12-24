@@ -33,7 +33,7 @@ if len(merged_folders)==0:
         #outpath.mkdir(exist_ok=True)
         
         #cont = sorted(basepath.glob("*CH*"))
-        cont=sorted( set(sorted(basepath.glob("*CH*"))) - set(sorted(basepath.glob("*.mat*"))));
+        cont=sorted( set(sorted(basepath.glob("*CH*"))) -set(sorted(basepath.glob("*.mat*")))-set(sorted(basepath.glob("*.recons*"))))
         cont_aux=sorted( set(sorted(basepath.glob("*AUX*"))) - set(sorted(basepath.glob("*recons*")))); #To not include recons files.
         #cont_str=[str(f) for f in cont];
         
