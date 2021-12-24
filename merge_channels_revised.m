@@ -10,8 +10,8 @@ fs=20000; %Can be different for some OS rats.
 %Get trial folders 
 cd ..
 cd ..
-foldername='/media/genzel/Data/rat9/sd14/Rat_OS_Ephys_Rat9_57989_SD14_OR_SD_NOV_23-24_05_2018';
-addpath(genpath(foldername));
+foldername='/mnt/genzel/Rat/OS/OS_rat_ephys/Rat_OS_Ephys_Rat9_57989/Rat_OS_Ephys_Rat9_57989_SD3_HC_13-14_05_2018';
+addpath((foldername));
 cd(foldername)
 
 folders=getfolder;
