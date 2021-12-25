@@ -10,12 +10,14 @@ fs=20000; %Can be different for some OS rats.
 %Get trial folders 
 cd ..
 cd ..
-foldername='/mnt/genzel/Rat/OS/OS_rat_ephys/Rat_OS_Ephys_Rat9_57989/Rat_OS_Ephys_Rat9_57989_SD3_HC_13-14_05_2018';
+foldername='/media/genzel/Data/rat9/sd15/Rat_OS_Ephys_Rat9_57989_SD15_OR_SD_25-26_06_2018';
 addpath((foldername));
 cd(foldername)
 
 folders=getfolder;
 folders=folders(or(or(contains(folders,'pre'),contains(folders,'trial')),contains(folders,'novelty')));
+
+% manually delete post_trial_5 and post_trial_5_1 columns
 
 for i=1:length(folders)
     fprintf(folders{i})
@@ -100,9 +102,13 @@ for j=1:length(channels)
         %Read presleep first.
         if i==1         
             cd(folders{i})
+
             % Check for a truncated folder
-            if exist('truncated', 'dir')
-                cd('truncated') 
+            subfolders = getfolder;
+            if size(subfolders, 1) > 0
+                if subfolders{1} == "truncated"
+                    cd('truncated');
+                end
             end
                
             CD=split(cd,'/');
@@ -131,9 +137,13 @@ for j=1:length(channels)
 
         %Read next (post)trial
         cd ..
+
         % Check for a truncated folder
-        if exist('truncated', 'dir')
-            cd ..
+        subfolders = getfolder;
+        if size(subfolders, 1) > 0
+            if subfolders{1} == "truncated"
+                cd ..
+            end
         end
 
         cd(folders{i+1})

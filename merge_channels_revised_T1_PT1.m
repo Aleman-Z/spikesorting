@@ -10,7 +10,7 @@ fs=20000; % For OS-normal Rats 1-9 this should be 20000.
 %Get trial folders 
 cd ..
 cd ..
-foldername='/mnt/genzel/Rat/OS/OS_rat_ephys/Rat_OS_Ephys_Rat9_57989/Rat_OS_Ephys_Rat9_57989_SD3_HC_13-14_05_2018';
+foldername='/media/genzel/Data/rat9/sd15/Rat_OS_Ephys_Rat9_57989_SD15_OR_SD_25-26_06_2018';
 addpath((foldername));
 cd(foldername)
 
@@ -20,6 +20,7 @@ folders=folders(or(contains(folders,'trial1'),contains(folders,'post_trial1')));
 for i=1:length(folders)
     fprintf(folders{i})
     fprintf('\n')
+    
     %Ignore test folders
     if i~=1
         if ~contains(folders{i},'trial5') && contains(folders{i-1},'trial5')
@@ -50,7 +51,6 @@ channels=[ ...
 
 
 
-
 %% Merging
 clc
 %i=1;
@@ -67,9 +67,13 @@ for j=1:length(channels)
         %Read presleep first.
         if i==1         
             cd(folders{i})
+            
             % Check for a truncated folder
-            if exist('truncated', 'dir')
-                cd('truncated') 
+            subfolders = getfolder;
+            if size(subfolders, 1) > 0
+                if subfolders{1} == "truncated"
+                    cd('truncated');
+                end
             end
                
             CD=split(cd,'/');
@@ -77,7 +81,6 @@ for j=1:length(channels)
             
             files=dir;
             files={files.name};
-%            file=files(contains(files,['CH',num2str(channels(j)),'_']));
             file=files(contains(files,['CH',num2str(channels(j))]));
             file=file{1};
             
@@ -99,18 +102,22 @@ for j=1:length(channels)
 
         %Read next (post)trial
         cd ..
+        
         % Check for a truncated folder
-        if exist('truncated', 'dir')
-            cd ..
+        subfolders = getfolder;
+        if size(subfolders, 1) > 0
+            if subfolders{1} == "truncated"
+                cd ..
+            end
         end
-
+        
+        
         cd(folders{i+1})
         CD=split(cd,'/');
         % CD{end}
         
         files=dir;
         files={files.name};
-%        file=files(contains(files,['CH',num2str(channels(j)),'_']));
         file=files(contains(files,['CH',num2str(channels(j))]));
         file=file{1};
         
