@@ -10,7 +10,7 @@ fs=20000; %Can be different for some OS rats.
 %Get trial folders 
 cd ..
 cd ..
-foldername='/media/genzel/Data/rat9/sd15/Rat_OS_Ephys_Rat9_57989_SD15_OR_SD_25-26_06_2018';
+foldername='/media/genzel/Data/rat9/sd3/Rat_OS_Ephys_Rat9_57989_SD3_HC_13-14_05_2018';
 addpath((foldername));
 cd(foldername)
 
@@ -59,10 +59,6 @@ switch answer
            error('There are less folders than expected. Stop and check why.')
         end
 end    
-    
-    
-
-
 
 % In case you need to remove an extra folder, you can use this example.
 %    folders{9}=[];
@@ -88,7 +84,6 @@ channels=[ ...
 
 %% Merging
 clc
-%i=1;
 f=waitbar(0,'Please wait...');
 counter=0;
 tic
@@ -96,18 +91,19 @@ tic
 for j=1:length(channels)
     for i=1:length(folders)-1
         
+        fprintf('Channel: %d\n', channels(j));
         % folders{i+1}   
         counter=counter+1;
         
         %Read presleep first.
         if i==1         
             cd(folders{i})
-
             % Check for a truncated folder
             subfolders = getfolder;
             if size(subfolders, 1) > 0
                 if subfolders{1} == "truncated"
                     cd('truncated');
+                    fprintf('Found truncated folder in %s !\n', folders{i});
                 end
             end
                
@@ -147,6 +143,16 @@ for j=1:length(channels)
         end
 
         cd(folders{i+1})
+        
+        % Check for a truncated folder
+        subfolders = getfolder;
+        if size(subfolders, 1) > 0
+            if subfolders{1} == "truncated"
+                cd('truncated');
+                fprintf('Found truncated folder in %s !\n', folders{i+1});
+            end
+        end
+        
         CD=split(cd,'/');
         % CD{end}
         
@@ -168,6 +174,13 @@ for j=1:length(channels)
         samples2 = fread(fid2, 'int16');
 
         cd ..
+        % Check for a truncated folder
+        subfolders = getfolder;
+        if size(subfolders, 1) > 0
+            if subfolders{1} == "truncated"
+                cd ..
+            end
+        end
 
         if i==1 && j==1 %If presleep and first channel, create new folder 'merged'
             mkdir('merged')   

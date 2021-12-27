@@ -53,7 +53,6 @@ channels=[ ...
 
 %% Merging
 clc
-%i=1;
 f=waitbar(0,'Please wait...');
 counter=0;
 tic
@@ -61,18 +60,19 @@ tic
 for j=1:length(channels)
     for i=1:length(folders)-1
         
+        fprintf('Channel: %d\n', channels(j));
         % folders{i+1}   
         counter=counter+1;
         
         %Read presleep first.
         if i==1         
             cd(folders{i})
-            
             % Check for a truncated folder
             subfolders = getfolder;
             if size(subfolders, 1) > 0
                 if subfolders{1} == "truncated"
                     cd('truncated');
+                    fprintf('Found truncated folder in %s !\n', folders{i});
                 end
             end
                
@@ -102,7 +102,7 @@ for j=1:length(channels)
 
         %Read next (post)trial
         cd ..
-        
+
         % Check for a truncated folder
         subfolders = getfolder;
         if size(subfolders, 1) > 0
@@ -110,9 +110,18 @@ for j=1:length(channels)
                 cd ..
             end
         end
-        
-        
+
         cd(folders{i+1})
+        
+        % Check for a truncated folder
+        subfolders = getfolder;
+        if size(subfolders, 1) > 0
+            if subfolders{1} == "truncated"
+                cd('truncated');
+                fprintf('Found truncated folder in %s !\n', folders{i+1});
+            end
+        end
+        
         CD=split(cd,'/');
         % CD{end}
         
@@ -134,8 +143,15 @@ for j=1:length(channels)
         samples2 = fread(fid2, 'int16');
 
         cd ..
+        % Check for a truncated folder
+        subfolders = getfolder;
+        if size(subfolders, 1) > 0
+            if subfolders{1} == "truncated"
+                cd ..
+            end
+        end
 
-        if i==1 && j==1 %If presleep and first channel, create new folder 'merged'
+        if i==1 && j==1 %If presleep and first channel, create new folder 'T1_PT1_merged'
             mkdir('T1_PT1_merged')   
         end
 
