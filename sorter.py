@@ -126,20 +126,24 @@ def auto(recording_folder):
         if not(not(sorting_IC_all.get_unit_ids())):
             Sorters2Compare.append(sorting_IC_all);
             Sorters2CompareLabel.append('IC');
+        SortersCount.append(len(sorting_IC_all.get_unit_ids()))
     
     else:
-        t = time.time()
-        sorting_IC_all = ss.run_ironclust(recording_cache, output_folder='results_all_ic',delete_output_folder=True, filter=False)
-        print('Found', len(sorting_IC_all.get_unit_ids()), 'units')
-        time.time() - t
-        #Save IC
-        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_IC_all.nwb')
-        se.NwbSortingExtractor.write_sorting(sorting_IC_all, 'sorting_IC_all.nwb')
-        if not(not(sorting_IC_all.get_unit_ids())):
-            Sorters2Compare.append(sorting_IC_all);
-            Sorters2CompareLabel.append('IC');
-    SortersCount.append(len(sorting_IC_all.get_unit_ids()))
-        
+        try:
+            t = time.time()
+            sorting_IC_all = ss.run_ironclust(recording_cache, output_folder='results_all_ic',delete_output_folder=True, filter=False)
+            print('Found', len(sorting_IC_all.get_unit_ids()), 'units')
+            time.time() - t
+            #Save IC
+            se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_IC_all.nwb')
+            se.NwbSortingExtractor.write_sorting(sorting_IC_all, 'sorting_IC_all.nwb')
+            if not(not(sorting_IC_all.get_unit_ids())):
+                Sorters2Compare.append(sorting_IC_all);
+                Sorters2CompareLabel.append('IC');
+            SortersCount.append(len(sorting_IC_all.get_unit_ids()))
+        except:       
+            print('Ironclust has failed')
+
     # #Waveclust
     # if 'sorting_waveclus_all.nwb' in arr:
     #     print('Loading waveclus')
@@ -387,7 +391,7 @@ def auto(recording_folder):
     a=os.path.split(os.getcwd())[1]
     np.save('actmat_auto_'+a.split('_')[1], NData)
     np.save('unit_id_auto_'+a.split('_')[1],some_list)
-    
+    #exit()
 
 def manual(recording_folder):
     #Folder with tetrode data
@@ -787,6 +791,7 @@ def ms4(recording_folder):
     a=os.path.split(os.getcwd())[1]
     np.save('actmat_auto_'+a.split('_')[1], NData)
     np.save('unit_id_auto_'+a.split('_')[1],some_list)
+    #exit()
     
 def manual_phy(recording_folder):
     os.chdir(recording_folder)
