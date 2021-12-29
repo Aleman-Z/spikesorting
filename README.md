@@ -10,7 +10,7 @@ Please install each sorter as mentioned on this page:
 
 https://spikeinterface.readthedocs.io/en/latest/install_sorters.html
 
-If the installation method above gives you trouble you can these [installation instructions](https://github.com/Aleman-Z/spikesorting/blob/main/spikesorting-setup.pdf).
+If the installation method above gives you trouble you can follow these [installation instructions](https://github.com/Aleman-Z/spikesorting/blob/main/spikesorting-setup.pdf).
 
 When using Matlab-based sorters please save them in the following folder : ~/Documents/SpikeSorting/
 
