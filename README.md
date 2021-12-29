@@ -106,7 +106,7 @@ F9  # This will run the script.
 
 
 ## Running in Linux terminal.
-Currently this approach only works in Adrian's PC but it is the fastest way to spike sort.
+Currently this approach only works in Adrian's PC but it is the fastest way to spike sort once you have merged channels and rearranged tetrodes.
 All you must do is type:
 ```
 ./loop
@@ -114,6 +114,7 @@ All you must do is type:
 This will call run_tetrodes_brain_areas.py in a loop until all tetrodes are sorted. 
 You can find the loop.sh in this repository as 'loop (copy)', just rename and remove the '(copy)'. 
 Make sure 'loop' is in your path. If not then add it by including the path in the last line of `gedit ~/.bashrc` as mentioned at the beginning. 
+You will need to add an _exit()_ at the end of the _ms4_ and _auto_ functions of _sorter.py_.
 
 
 ## For reading Open ephys corrupted files:
