@@ -108,6 +108,9 @@ for i in range(len(filenames)):
     
 filenames_filtered.sort(key=natural_keys)
 
+for filename in filenames_filtered:
+    print(filename)
+
 # Load excels as dataframes
 df_list = []
 
