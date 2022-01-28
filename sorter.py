@@ -105,19 +105,24 @@ def auto(recording_folder):
         if not(not(sorting_KL_all.get_unit_ids())):
             Sorters2Compare.append(sorting_KL_all);
             Sorters2CompareLabel.append('KL');
+        SortersCount.append(len(sorting_KL_all.get_unit_ids()))
     
     else:
-        t = time.time()
-        sorting_KL_all = ss.run_klusta(recording_cache, output_folder='results_all_klusta',delete_output_folder=True)
-        print('Found', len(sorting_KL_all.get_unit_ids()), 'units')
-        time.time() - t
-        #Save Klusta
-        se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_KL_all.nwb')
-        se.NwbSortingExtractor.write_sorting(sorting_KL_all, 'sorting_KL_all.nwb')
-        if not(not(sorting_KL_all.get_unit_ids())):
-            Sorters2Compare.append(sorting_KL_all);
-            Sorters2CompareLabel.append('KL');
-    SortersCount.append(len(sorting_KL_all.get_unit_ids()))
+        try: 
+            t = time.time()
+            sorting_KL_all = ss.run_klusta(recording_cache, output_folder='results_all_klusta',delete_output_folder=True)
+            print('Found', len(sorting_KL_all.get_unit_ids()), 'units')
+            time.time() - t
+            #Save Klusta
+            se.NwbRecordingExtractor.write_recording(recording_sub, 'sorting_KL_all.nwb')
+            se.NwbSortingExtractor.write_sorting(sorting_KL_all, 'sorting_KL_all.nwb')
+            if not(not(sorting_KL_all.get_unit_ids())):
+                Sorters2Compare.append(sorting_KL_all);
+                Sorters2CompareLabel.append('KL');
+            SortersCount.append(len(sorting_KL_all.get_unit_ids()))
+        except:       
+            print('Klusta has failed')
+        
     
     #Ironclust
     if 'sorting_IC_all.nwb' in arr:
