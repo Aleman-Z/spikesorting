@@ -96,6 +96,16 @@ To view a new consensus after having done a manual curation use:
 ```
 python -m consensus_post_curation  ‘complete_path_of_tetrode_folder’
 ```
+10. To calculate the quality metrics (ISI-violation, SNR and L-ratio) of the sorted output data:
+```
+python -m quality_metrics
+```
+Important: You should have first created and activated the spiketutorial_qm environment:
+```
+conda env create -f environment_qm.yml
+conda activate spiketutorial_qm
+```
+
 ## Running in Spyder.
 For spyder open run_tetrodes.py but DONT RUN IT.
 Instead press:
