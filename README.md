@@ -69,6 +69,7 @@ python -m rearrange_folders ‘complete_path_of_folder_with_ephys_data’
 ```
 python -m run_tetrodes  ‘complete_path_of_brain_region_folder_with_tetrodes’
 ```
+__I recommend to instead of using the terminal you run the script in spyder because this avoids issues with the script crashing.__ 
 If you are running this first on the concatenated 'Trial1+PostTrial1 signal, then you need to generate the JSON file
 which will indicate the sorter if there was consensus or not and if it should run all sorters on the whole day recording.
 To do this you can use `create_json.py`:
