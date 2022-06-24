@@ -35,6 +35,7 @@ if len(merged_folders)==0:
         #cont = sorted(basepath.glob("*CH*"))
         cont=sorted( set(sorted(basepath.glob("*CH*"))) -set(sorted(basepath.glob("*.mat*")))-set(sorted(basepath.glob("*.recons*"))))
         cont_aux=sorted( set(sorted(basepath.glob("*AUX*"))) - set(sorted(basepath.glob("*recons*")))); #To not include recons files.
+        cont_all=cont+cont_aux;
         #cont_str=[str(f) for f in cont];
         
         
@@ -46,12 +47,12 @@ if len(merged_folders)==0:
         
         if len(cont_aux)!=6:
             print ('Warning: The recording is likely split in chunks. Using largest chunk.')
-            fsizes = [f.stat().st_size for f in cont]
+            fsizes = [f.stat().st_size for f in cont_all]
             shortest, longest = min(fsizes), max(fsizes)
             #Finding chunk with the longest duration
             y=1*np.array([f==longest for f in fsizes], dtype=int)
             y_ind=np.where(y);
-            cont2=[cont[i] for i in y_ind[0]];
+            cont2=[cont_all[i] for i in y_ind[0]];
             outpath.mkdir(exist_ok=True)
             for n, f in enumerate(cont2):
                 mm = np.memmap(f, mode="r", dtype=np.uint8)
@@ -65,7 +66,7 @@ if len(merged_folders)==0:
     
     
         else:
-            fsizes = [f.stat().st_size for f in cont]
+            fsizes = [f.stat().st_size for f in cont_all]
             shortest, longest = min(fsizes), max(fsizes)
             #Find if there are length discrepancies.
             if shortest != longest:
@@ -74,7 +75,7 @@ if len(merged_folders)==0:
                 print(f"truncate to {trunc_bytes} bytes!")
                 
                 outpath.mkdir(exist_ok=True)
-                for n, f in enumerate(cont):
+                for n, f in enumerate(cont_all):
                     mm = np.memmap(f, mode="r", dtype=np.uint8)
                     outfname = outpath / f.name
                     print(f"Truncating {outfname.name} to {trunc_bytes} Bytes, cutting {fsizes[n]-trunc_bytes} Bytes")
