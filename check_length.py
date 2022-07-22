@@ -45,7 +45,7 @@ if len(merged_folders)==0:
             os.chdir("..")
             continue
         
-        if len(cont_aux)!=6:
+        if len(cont_aux)!=6 & len(cont_aux)!=0:
             print ('Warning: The recording is likely split in chunks. Using largest chunk.')
             fsizes = [f.stat().st_size for f in cont_all]
             shortest, longest = min(fsizes), max(fsizes)
