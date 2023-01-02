@@ -1,4 +1,4 @@
-# spikesorting
+# spikesorting: Object Space Task pipeline.
 Automatic and manual spike sorting for tetrodes recordings based on SpikeInterface.
 <p align="center">
 <img src="cover.JPG" width="600">
