@@ -1,0 +1,29 @@
+
+cff-version: 1.2.0
+title: spikesorting
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Adrian
+    family-names: Aleman-Zapata
+    email: jraleman10@gmail.com
+    affiliation: >-
+      Donders Institute for Brain, Cognition and
+      Behaviour
+    orcid: 'https://orcid.org/0000-0002-9894-4370'
+  - given-names: Dimitris
+    family-names: Exarchou 
+    
+license: MIT    
+repository-code: 'https://github.com/Aleman-Z/spikesorting'
+keywords:
+  - spike sorting
+  - memory
+  - spikeinterface 
+  - cortex
+  - object space
+  - neurons
+  - consensus
+date-released: 2022-01-01
