@@ -16,7 +16,7 @@ authors:
   - given-names: Dimitris
     family-names: Exarchou 
     
-license: MIT    
+license: GNU General Public License v3.0    
 repository-code: 'https://github.com/Aleman-Z/spikesorting'
 keywords:
   - spike sorting
