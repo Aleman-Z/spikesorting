@@ -79,9 +79,10 @@ def loadContinuous(filepath, dtype=float):
             data = np.fromfile(f, np.dtype('>i2'), N)  # big-endian 16-bit signed integer
         if  (data.size==1024) :    
             samples[indices[recordNumber]:indices[recordNumber + 1]] = data
-
-        marker = f.read(10)  # dump
-
+        try:
+            marker = f.read(10)  # dump
+        except OSError:
+            print("Marker issue.")
     # print recordNumber
     # print index
 
