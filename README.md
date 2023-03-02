@@ -144,7 +144,7 @@ You should have a similar path structure like this one in your computer:
 ```
 /home/Username/anaconda3/envs/spiketutorial/lib/python3.6/site-packages/pyopenephys
 ```
-Here you will find two files which you have to modify. [This file](https://github.com/Aleman-Z/spikesorting/blob/main/openephys_tools.py#L49-L82) indicates the lines that need to be modified in the __openephys_tools.py__ file.
+Here you will find two files which you have to modify. [This file](https://github.com/Aleman-Z/spikesorting/blob/main/openephys_tools.py#L49-L85) indicates the lines that need to be modified in the __openephys_tools.py__ file.
 
 Similarly, you will need to add [these lines](https://github.com/Aleman-Z/spikesorting/blob/main/core.py#L723-L727) to the __core.py__ file which you can also find in the path above. 
 
