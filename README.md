@@ -4,7 +4,8 @@ Automatic and manual spike sorting for tetrodes recordings based on SpikeInterfa
 <img src="cover.JPG" width="600">
 </p>
 
-Dependencies: Same as [Spikeinterface](https://github.com/SpikeInterface/spiketutorials/blob/master/NWB_Developer_Breakout_Session_Sep2020/environment.yml)
+Dependencies: Same as [Spikeinterface](https://github.com/SpikeInterface/spiketutorials/blob/master/old_api/NWB_Developer_Breakout_Session_Sep2020/environment.yml)
+
 :warning: Important: This pipeline uses the Spikeinterface version from 2020 from the link above. Compatibility has not been tested with newer versions. 
 
 Please install each sorter as mentioned on this page:
