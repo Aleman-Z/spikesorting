@@ -134,7 +134,7 @@ All you must do is type:
 ./loop
 ```
 This will call run_tetrodes_brain_areas.py in a loop until all tetrodes are sorted. 
-You can find the loop.sh in this repository as 'loop (copy)', just rename and remove the '(copy)'. 
+You can find the loop.sh [here](https://github.com/Aleman-Z/spikesorting/blob/main/loop%20(copy)) as 'loop (copy)', just rename and remove the '(copy)'. 
 Make sure 'loop' is in your path. If not then add it by including the path in the last line of `gedit ~/.bashrc` as mentioned at the beginning. 
 You will need to add an _exit()_ at the end of the _ms4_ and _auto_ functions of _sorter.py_.
 
