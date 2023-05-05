@@ -35,6 +35,15 @@ end
     
 
 %% Check that the order is correct in the printed folder names.
+% If order is wrong, fix by swapping place of trial cell to the beginning. 
+if contains(folders{end},'post') ==0
+    folders=[folders(end) folders(1:end-1)];
+end
+
+if size(folders,2)~=2
+    error('Check data, you have multiple chunks of your post or trial data.')
+    
+end
 
 %% Select channels to merge
 channels=[ ...
