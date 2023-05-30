@@ -740,7 +740,12 @@ def ms4(recording_folder):
     #Mountainsort4
     if 'sorting_mountainsort4_all.nwb' in arr:
         print('Loading mountainsort4')
-        sorting_mountainsort4_all=se.NwbSortingExtractor('sorting_mountainsort4_all.nwb');
+        try:
+            sorting_mountainsort4_all=se.NwbSortingExtractor('sorting_mountainsort4_all.nwb');
+        except AttributeError:
+            print("No units detected by Mountainsort4. Skipping tetrode. The computer may crash during the next tetrode. Rerunning should fix the problem.")
+            os.mkdir('phy_MS4')
+            return
     
     else:
         t = time.time()
