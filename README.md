@@ -59,7 +59,7 @@ copy these files into the merged folder:  (You can copy them from any trial or p
 
 -settings.xml
 
--tetrode.prb [Download here](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb)
+-tetrode.prb [Download here](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb)  Don't worry about the content of this file, use the same for all rats/days.
 
 -hpc.xlsx and cortex.xlsx files mentioned above! You can omit hpc.xlsx if you are not sorting hippocampal tetrodes.
 
