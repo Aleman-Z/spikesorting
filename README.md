@@ -37,6 +37,7 @@ conda activate <Name of environment>
 ```
 python -m check_length ‘complete_path_of_folder_with_Study_day_subfolders’
 ```
+:warning: Make sure that trials folders don't include in the same folder repeated files of the same channel. For example:  100_CH1.continuous and 100_CH1_2.continuous. This may happen when a Post trial 5 is split in two folders.  
 
 3.	Select trial/post-trial. This could also be a merged version of them. To concatenate .continuous files from different trials run the `merge_channels_revised_T1_PT1.m` or the `merge_channels_revised.m` Matlab scripts respectively. __Make sure you use the right sampling rate (fs)! Rats 1-9 of the normal OS used 20kHz instead of the usual 30kHz. Please ask if you have doubts__. You also need to check that the 'folders' variable includes the right folders and in the right sequence.
  To select the channels you should take a look at the excel sheets in the Dropbox. For OS animals look for the document named `RAT_OS_EPHYS_Channel_Normalization_Across_Animals.xlsx` and select the tab of the rat you want to spikesort.
