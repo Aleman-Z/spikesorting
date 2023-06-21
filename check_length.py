@@ -34,7 +34,7 @@ if len(merged_folders)==0:
         
         #cont = sorted(basepath.glob("*CH*"))
         cont=sorted( set(sorted(basepath.glob("*CH*"))) -set(sorted(basepath.glob("*.mat*")))-set(sorted(basepath.glob("*.recons*"))))
-        cont_aux=sorted( set(sorted(basepath.glob("*AUX*"))) - set(sorted(basepath.glob("*recons*")))); #To not include recons files.
+        cont_aux=sorted( set(sorted(basepath.glob("*AUX*"))) - set(sorted(basepath.glob("*recons*"))))-set(sorted(basepath.glob("*.mat*"))); #To not include recons files.
         cont_all=cont+cont_aux;
         #cont_str=[str(f) for f in cont];
         
