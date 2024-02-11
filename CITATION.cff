@@ -13,8 +13,7 @@ authors:
       Donders Institute for Brain, Cognition and
       Behaviour
     orcid: 'https://orcid.org/0000-0002-9894-4370'
-  - given-names: Dimitris
-    family-names: Exarchou 
+
     
 license: GNU General Public License v3.0    
 repository-code: 'https://github.com/Aleman-Z/spikesorting'
