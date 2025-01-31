@@ -4,7 +4,7 @@ addpath(genpath('/home/genzel/dimitris/ADRITOOLS-master'))
 addpath(genpath('/home/genzel/dimitris/analysis-tools-master'))
 
 %Sampling freq:
-fs=20000; %Can be different for some OS rats.
+%fs=20000; %Can be different for some OS rats.
 
 %%
 %Get trial folders 
@@ -116,7 +116,8 @@ for j=1:length(channels)
             file=file{1};
             
             if  j==1   %Only run with the first channel.
-                signal=load_open_ephys_data(file); % changed to simple version
+                [signal,~,info]=load_open_ephys_data(file); % changed to simple version
+                fs=info.header.sampleRate;		
                 trial_durations(1)=length(signal);
             end
             
