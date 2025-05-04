@@ -1,6 +1,7 @@
-# 🧠 SpikeSorting: Object Space Task Pipeline
 
-**Automatic and manual spike sorting for tetrode recordings** using [SpikeInterface (2020 version)](https://github.com/SpikeInterface/spiketutorials/blob/master/old_api/NWB_Developer_Breakout_Session_Sep2020/environment.yml).
+# SpikeSorting: Object Space Task Pipeline
+
+Automatic and manual spike sorting for tetrode recordings based on SpikeInterface.
 
 <p align="center">
 <img src="cover.JPG" width="600">
@@ -9,202 +10,249 @@
 <img src="pipeline.PNG" width="1000">
 </p>
 
----
+## Dependencies
 
-## ⚠️ Compatibility Warning
+Same as [SpikeInterface](https://github.com/SpikeInterface/spiketutorials/blob/master/old_api/NWB_Developer_Breakout_Session_Sep2020/environment.yml)
 
-> This pipeline was built using SpikeInterface from 2020. **Newer versions are not guaranteed to be compatible.**  
-> Make sure to install the sorters as described [here](https://spikeinterface.readthedocs.io/en/latest/install_sorters.html).
+> ⚠️ **Important**: This pipeline uses the SpikeInterface version from 2020. Compatibility has not been tested with newer versions.
 
-For troubleshooting, refer to these [installation instructions (PDF)](https://github.com/Aleman-Z/spikesorting/blob/main/spikesorting-setup.pdf).
+Please install each sorter as described here:  
+👉 [SpikeInterface Sorter Installation Guide](https://spikeinterface.readthedocs.io/en/latest/install_sorters.html)
 
----
+If the method above causes issues, try these [detailed installation instructions (PDF)](https://github.com/Aleman-Z/spikesorting/blob/main/spikesorting-setup.pdf).
 
-## 📦 Dependencies
+When using **Matlab-based sorters**, save them in:
 
-- [SpikeInterface (2020)](https://github.com/SpikeInterface/spiketutorials/blob/master/old_api/NWB_Developer_Breakout_Session_Sep2020/environment.yml)
-- Matlab (for merging scripts)
-- Linux recommended :penguin:
+```
+~/Documents/SpikeSorting/
+```
 
-To use Matlab-based sorters:
-- Place them in: `~/Documents/SpikeSorting/`
-- Add the path in your terminal:
-  ```bash
-  export PYTHONPATH=$PYTHONPATH:/path/to/this/folder
-  ```
-  Or add it permanently via `gedit ~/.bashrc`.
+To be used on **Linux** 🐧. Add this folder to your path temporarily:
 
----
-
-## 🔁 Pipeline Overview
-
-### Step 1: Activate Environment
 ```bash
-conda activate <your_spikeinterface_env>
+export PYTHONPATH=$PYTHONPATH:/path/to/this/folder
+```
+
+To make it permanent, paste it into your bashrc:
+
+```bash
+gedit ~/.bashrc
 ```
 
 ---
 
-### Step 2: Check for Corrupted Files
+## Spike Sorting Pipeline
+
+### 1. Activate your conda environment
+
 ```bash
-python -m check_length 'path_to_folder_with_Study_day_subfolders'
+conda activate <Name of environment>
 ```
-**Make sure**: No duplicate `.continuous` files (e.g., `CH1.continuous` and `CH1_2.continuous`) in the same folder.
 
 ---
 
-### Step 3: Merge Trials (Matlab)
+### 2. Check for corrupt or uneven length files
 
-- Use `merge_channels_revised_T1_PT1.m` or `merge_channels_revised.m` scripts.
-- **Important**: Use correct sampling rate (`20kHz` vs `30kHz`). Refer to the Excel sheet:  
-  `RAT_OS_EPHYS_Channel_Normalization_Across_Animals.xlsx`.
+```bash
+python -m check_length ‘/full/path/to/folder_with_Study_day_subfolders’
+```
 
-You’ll need two merged versions:
-1. T1 + PT1
-2. Entire day (Pre + T1 + PT1 + T2 + PT2 + ...)
-
-Check the [Google planning sheet](https://docs.google.com/spreadsheets/d/1FvTOxkV9HDviEM8qUjApdJ_2NViZCOhmVhzIALzLDKA/edit#gid=949291845) for animal-specific notes.
-
-Create:
-- `hpc.xlsx` and/or `cortex.xlsx` with tetrode IDs and channels.
+> ⚠️ Ensure trial folders don’t have duplicate channel files like `100_CH1.continuous` and `100_CH1_2.continuous`.
 
 ---
 
-### Step 4: Fix Channel Names
+### 3. Select trials or merge trials (Trial1 + PostTrial1 or full-day)
+
+Use `merge_channels_revised_T1_PT1.m` or `merge_channels_revised.m` in MATLAB.  
+Ensure correct **sampling rate (fs)**:  
+- Rats 1–9 used **20kHz**, not 30kHz.
+
+Check `folders` variable in the MATLAB script and make sure it lists the correct trial folders in the right order.
+
+📌 Refer to the file:  
+`RAT_OS_EPHYS_Channel_Normalization_Across_Animals.xlsx` (Dropbox)
+
+> 💡 Run merging twice:  
+1. Trial1 + PostTrial1  
+2. Presleep + T1 + PT1 + … + T5 + PT5 (+ Novelty trial if applicable)
+
+📋 Refer to this [Google Planning Sheet](https://docs.google.com/spreadsheets/d/1FvTOxkV9HDviEM8qUjApdJ_2NViZCOhmVhzIALzLDKA/edit#gid=949291845)
+
+Generate `hpc.xlsx` and `cortex.xlsx` with tetrode IDs and channel info.  
+Skip tetrodes with only 1 channel or reference tetrodes.
+
+---
+
+### 4. Fix file names if needed
+
 ```bash
-python -m fix_channel_name 'path_to_.continuous_files'
+python -m fix_channel_name ‘/path/to/continuous_files’
 ```
 
-Copy the following into the merged folder (from same study day):
+Copy the following files from the same study day (any trial or post-trial folder):
+
 - `all_channels.events`
 - `Continuous_Data.openephys`
 - `messages.events`
 - `settings.xml`
-- [`tetrode.prb`](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb) (Use same file for all)
-- `hpc.xlsx`, `cortex.xlsx` (as needed)
+- [`tetrode.prb`](https://github.com/Aleman-Z/spikesorting/blob/main/tetrode.prb) (same for all rats)
+- `hpc.xlsx` and `cortex.xlsx` (omit `hpc.xlsx` if not sorting HPC)
+
+> 💻 Work locally! Copy the merged folder to your computer's **data hard drive**.
 
 ---
 
-### Step 5: Rearrange by Tetrode
+### 5. Rearrange data by tetrode
+
 ```bash
-python -m rearrange_folders 'path_to_merged_folder'
+python -m rearrange_folders ‘/path/to/merged_data’
 ```
-- Set `folders=['cortex']` if not sorting hippocampus.
+
+📌 If only sorting **cortical** tetrodes, ensure `rearrange_folders.py` uses:
+
+```python
+folders = ['cortex']
+```
+
+Instead of:
+
+```python
+folders = ['hpc', 'cortex']
+```
 
 ---
 
-### Step 6: Run Automatic Spike Sorting
-#### Recommended: Use Spyder
+### 6. Run automatic spike sorting
+
+```bash
+python -m run_tetrodes ‘/path/to/brain_region_folder_with_tetrodes’
+```
+
+> 💡 Prefer using **Spyder** (prevents crashes):
+
 ```bash
 conda activate spiketutorial
 spyder
 ```
+
+In Spyder:
 - Load `run_tetrodes.py`
-- Edit the `folder` variable.
-- Press `Ctrl+A` then `F9` to run.
+- Set the correct path in the `folder` variable
+- Press `Ctrl+A` then `F9` to run the script
 
-Or from terminal:
+---
+
+### 7. Create JSON for consensus
+
 ```bash
-python -m run_tetrodes 'path_to_brain_area_folder'
+python -m create_json ‘/path/to/brain_region_folder’
 ```
 
-To generate consensus JSON (after T1+PT1 sorting):
-```bash
-python -m create_json 'path_to_brain_area_folder'
-```
+Copy JSON files to the respective brain area folders of the **full-day merged** folder.
 
-To run on full-day:
+To run manual curation:
+
 ```bash
-python -m run_tetrodes 'path_to_full_day_folder'
+python -m run_tetrodes_manual ‘/path/to/brain_region_folder_with_tetrodes’
 ```
 
 ---
 
-### Step 7: Manual Curation with Phy
-```bash
-python -m run_tetrodes_manual 'path_to_tetrode_folder'
-```
-Phy interface:
-- `Alt+N` = noise
-- `Alt+M` = MUA
-- `Alt+G` = pyramidal
-- Interneurons = unlabeled
+### 8. Manual curation with Phy
 
-**Important**: Save before closing Phy interface!
+During manual curation:
+- `Alt+N` = Noise  
+- `Alt+M` = MUA  
+- `Alt+G` = Pyramidal unit  
+- Leave unlabeled = Interneuron
+
+> ⚠️ Always **save first**, then close. If you close first and then save, your curation won't be saved.
 
 ---
 
-### Step 8: Spike Times and Activation Matrix
-- Output: `spike_times.npy`, `spike_clusters.npy`, `actmat_auto_tetrode#`
-- Binning: 25 ms
+### 9. Activation matrix & consensus post-curation
 
----
+Both scripts (`run_tetrodes.py` or `run_tetrodes_manual.py`) create a `phy` folder with:
 
-### Step 9: Cell Assembly Detection
+- `spike_times.npy`
+- `spike_clusters.npy`
+
+You can generate activation matrices (25 ms bins) as `actmat_auto_tetrode#`.
+
+To concatenate and detect assemblies:
+
 ```bash
 python -m phy2assembly
 ```
 
----
+To view previous detections:
 
-### Step 10: View & Export Sorter Results
-
-- Load into Phy:
 ```bash
 os.system('phy template-gui phy_AGR/params.py')
 ```
 
-- After manual curation:
-```bash
-python -m consensus_post_curation 'path_to_tetrode_folder'
-```
+Post-curation consensus:
 
-- View sorter results:
 ```bash
-python -m view_sorter_detections
+python -m consensus_post_curation ‘/path/to/tetrode_folder’
 ```
 
 ---
 
-### Step 11: Quality Metrics
-```bash
-conda env create -f environment_qm.yml
-conda activate spiketutorial_qm
+### 10. Quality Metrics
 
+```bash
 python -m quality_metrics
 ```
 
+Requires:
+
+```bash
+conda env create -f environment_qm.yml
+conda activate spiketutorial_qm
+```
+
 ---
 
-## 🧪 Extra Options
+## Running in Spyder
 
-### 🐧 Linux: Fast Auto-Sorting (Adrian’s PC)
+1. Open `run_tetrodes.py`  
+2. Press `Ctrl+A`, then `F9`
+
+---
+
+## Running in Linux Terminal (Adrian's PC only)
+
 ```bash
 ./loop
 ```
-- Make sure `loop` is in your PATH.
-- Modify the `sorter.py` functions (`ms4`, `auto`) to include `_exit()`.
 
-[loop.sh file](https://github.com/Aleman-Z/spikesorting/blob/main/loop%20(copy))  
-Rename from `loop (copy)` → `loop`
+This calls `run_tetrodes_brain_areas.py` in a loop.  
+Download [loop.sh](https://github.com/Aleman-Z/spikesorting/blob/main/loop%20(copy)) → rename to `loop`.
 
----
+Add `loop` to your PATH in `~/.bashrc`.
 
-## 🧯 Troubleshooting Open Ephys Corrupted Files
-
-You may need to modify:
-- `openephys_tools.py`: [see lines here](https://github.com/Aleman-Z/spikesorting/blob/main/openephys_tools.py#L49-L85)
-- `core.py`: [see lines here](https://github.com/Aleman-Z/spikesorting/blob/main/core.py#L723-L727)
-
-Path:
-```
-~/anaconda3/envs/spiketutorial/lib/python3.6/site-packages/pyopenephys
-```
+Modify `sorter.py`: add `exit()` to the end of `ms4()` and `auto()` functions.
 
 ---
 
-## 🆕 New Scripts (TBD)
-Descriptions pending:
+## Reading corrupted Open Ephys files
+
+Navigate to:
+
+```
+/home/Username/anaconda3/envs/spiketutorial/lib/python3.6/site-packages/pyopenephys
+```
+
+Modify:
+
+- [`openephys_tools.py`](https://github.com/Aleman-Z/spikesorting/blob/main/openephys_tools.py#L49-L85)
+- [`core.py`](https://github.com/Aleman-Z/spikesorting/blob/main/core.py#L723-L727)
+
+---
+
+## Newest scripts (yet to be described)
+
 - `run_tetrodes_brain_areas.py`
 - `run_tetrodes_json.py`
 - `run_tetrodes_loop.py`
